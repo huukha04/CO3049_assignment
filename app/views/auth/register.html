@@ -23,7 +23,7 @@
                     <h1 class="auth-title">Sign Up</h1>
                     <p class="auth-subtitle mb-5">Input your data to register to our website.</p>
         
-                    <form action="<?=ROOT?>auth/register" method="POST">
+                    <form action="<?=ROOT?>auth/register" method="post">
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="email" name="email" class="form-control form-control-xl" placeholder="Email" required>
                             <div class="form-control-icon">
@@ -48,6 +48,13 @@
                                 <i class="bi bi-shield-lock"></i>
                             </div>
                         </div>
+                        <div id="error-message" class="alert alert-danger h-3" style="<?= isset($error) && !empty($error) ? 'visibility: visible;' : 'visibility: hidden;' ?>">
+                            <?php if (!empty($error)) : ?> 
+                            <?= implode("<br>", $error) ?>
+                            <?php endif; ?>    
+
+                        </div>   
+                        
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Sign Up</button>
                     </form>
                     

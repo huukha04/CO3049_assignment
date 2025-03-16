@@ -1,9 +1,4 @@
 <?php
-
-/**
- * home class
- */
-
 class Home
 {
     use Controller;

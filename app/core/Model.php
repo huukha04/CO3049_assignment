@@ -6,6 +6,8 @@ trait Model {
     protected $allowedColumns = [];
     protected $table = '';
 
+
+
     public function insert($data) {
         
         if (!empty($this->allowedColumns)) {
@@ -17,7 +19,10 @@ trait Model {
         }
         $keys = array_keys($data);
         $query = "INSERT INTO $this->table (" . implode(", ", $keys) . ") values (:" . implode(", :", $keys) . ")";
-        $this->PDOquery($query, $data);
+        $result = $this->PDOquery($query, $data);
+        if ($result) {
+            return true;
+        }
         return false;
     }
 
@@ -42,17 +47,44 @@ trait Model {
         $query .= " WHERE $id_column = :$id_column ";
 
         $data[$id_column] = $id;
-
-        // echo $query;
-        $this->PDOquery($query, $data);
+        $result = $this->PDOquery($query, $data);
+        if ($result) {
+            return true;
+        }
         return false;
     }
 
     public function delete($id, $id_column = 'id') {
         $data[$id_column] = $id;
         $query = "DELETE FROM $this->table WHERE $id_column = :$id_column";
-        $this->PDOquery($query, $data);
 
-        return false;
+        $result = $this->PDOquery($query, $data);
+        return $result !== false;
     }
+    public function where($data = [], $data_not = [])
+    {
+        $keys = array_keys($data);
+        $keys_not = array_keys($data_not);
+        $query = "SELECT * FROM $this->table";
+
+        // Chỉ thêm WHERE nếu có điều kiện
+        if (!empty($keys) || !empty($keys_not)) {
+            $query .= " WHERE ";
+        
+            foreach ($keys as $key) {
+                $query .= "$key = :$key AND ";
+            }
+
+            foreach ($keys_not as $key) {
+                $query .= "$key != :$key AND ";
+            }
+
+            $query = rtrim($query, " AND "); // Xóa "AND" cuối nếu có
+        }
+
+        $data = array_merge($data, $data_not);
+
+        return $this->PDOquery($query, $data);
+    }
+
 }

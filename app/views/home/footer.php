@@ -43,10 +43,7 @@
         <!-- Thanh toán -->
         <div class="row mt-4 text-center">
             <div class="col-12">
-                <h6 class="fw-bold">Chấp nhận thanh toán</h6>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Visa-logo.svg/120px-Visa-logo.svg.png" alt="Visa" width="50">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/120px-Mastercard-logo.svg.png" alt="MasterCard" width="50">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/120px-PayPal.svg.png" alt="PayPal" width="50">
+                <h6 class="fw-bold">Đối tác</h6>
             </div>
         </div>
 

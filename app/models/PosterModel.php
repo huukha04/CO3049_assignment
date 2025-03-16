@@ -1,22 +1,19 @@
 <?php
-
-
-/**
- * User Class
- */
-class UserModel
+class PosterModel
 {
-
     use Model;
+    
     public function __construct() {
         $this->allowedColumns = [
-            'email',
-            'password',
-            'username',
+            'status',
+            'expiration_date',
+            'url',
+        
         ];
-        $this->table = 'user';
+        $this->table = 'poster';
         $this->message = [];
     }
 
+    
 
 }

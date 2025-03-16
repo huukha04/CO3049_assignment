@@ -7,106 +7,24 @@
     <title>Dashboard - Mazer Admin Dashboard</title>
     
     
-    
-  <link rel="stylesheet" href="<?=DIST?>assets/compiled/css/app.css">
-  <link rel="stylesheet" href="<?=DIST?>assets/compiled/css/app-dark.css">
-  <link rel="stylesheet" href="<?=DIST?>assets/compiled/css/iconly.css">
+
+	<link rel="stylesheet" href="<?=DIST?>assets/extensions/filepond/filepond.css">
+	<link rel="stylesheet" href="<?=DIST?>assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
+    <link rel="stylesheet" href="<?=DIST?>assets/extensions/toastify-js/src/toastify.css">
+
+	<link rel="stylesheet" href="<?=DIST?>assets/compiled/css/app.css">
+	<link rel="stylesheet" href="<?=DIST?>assets/compiled/css/app-dark.css">
+	<link rel="stylesheet" href="<?=DIST?>assets/compiled/css/iconly.css">
 </head>
 
 <body>
 	<!-- <script src="<?=DIST?>assets/static/js/initTheme.js"></script> -->
     <div id="app">
+		
 		<!--  -->
-		<div id="sidebar-menu">
-			<div class="sidebar-wrapper active">
-				<!--  -->
-				<div class="sidebar-header position-relative">
-						<div class="d-flex justify-content-between align-items-center">
-							<div class="logo">
-								<a href="<?=ROOT?>home">Move</a>
-							</div>
-							
-							<div class="theme-toggle d-flex gap-2  align-items-center m-0">
-								<i class="bi bi-brightness-high fs-6 mx-1"></i> 
-								<div class="form-check form-switch fs-6 mt-1">
-									<input class="form-check-input mt-2" type="checkbox" id="toggle-dark" style="cursor: pointer">
-								</div>
-								<i class="bi bi-moon fs-6"></i>
-							</div>
-	
-							<div class="sidebar-toggler x">
-								<a href="#" class="sidebar-hide"><i class="bi bi-x bi-middle"></i></a>
-							</div>
-						</div>
-				</div>
-	
-				<!--  -->
-				<div class="sidebar-menu">
-						<ul class="menu">
-							
-							<li class="sidebar-item">
-								<a href="<?=ROOT?>home" class="sidebar-link">
-									<i class="bi bi-house-door"></i>
-									<span>Trang chủ</span>
-								</a>
-							</li>
-							
-							<li class="sidebar-item">
-								<a href="<?=ROOT?>lich-chieu" class="sidebar-link">
-									<i class="bi bi-calendar-week"></i>
-									<span>Lịch chiếu</span>
-								</a>
-							</li>
-							
-							<li class="sidebar-item">
-								<a href="<?=ROOT?>cinemas" class="sidebar-link">
-									<i class="bi bi-building"></i>
-									<span>Thông tin rạp</span>
-								</a>
-							</li>
-							
-							<li class="sidebar-item">
-								<a href="<?=ROOT?>movies" class="sidebar-link">
-									<i class="bi bi-film"></i>
-									<span>Phim đang chiếu</span>
-								</a>
-							</li>
-							
-							<li class="sidebar-item">
-								<a href="<?=ROOT?>promotions" class="sidebar-link">
-									<i class="bi bi-tags"></i>
-									<span>Khuyến mãi</span>
-								</a>
-							</li>
-							<li class="sidebar-item">
-								<a href="<?=ROOT?>promotions" class="sidebar-link">
-									<i class="bi bi-newspaper"></i>
-									<span>Tin tức</span>
-								</a>
-							</li>
-	
-							<li class="sidebar-item">
-								<a href="<?=ROOT?>contact" class="sidebar-link">
-								<i class="bi bi-gear"></i> 
-								<span>Cài đặt</span>
-								</a>
-							</li>
-							<li class="sidebar-item active">
-								<a href="<?=ROOT?>home/faq" class="sidebar-link">
-								<i class="bi bi-question-circle"></i> 
-								<span>Hỏi đáp</span>
-								</a>
-							</li>   
-							<li class="sidebar-item">
-								<a href="<?=ROOT?>contact" class="sidebar-link">
-									<i class="bi bi-info-circle"></i>
-									<span>Liên hệ</span>
-								</a>
-							</li>                       
-						</ul>
-				</div>
-			</div>
-		</div> 
+		
+		<?php include 'sidebar.php'; ?>
+		
 		<!--  -->
 		<div id="main">
 			<header class="navbar mb-3">
@@ -166,11 +84,21 @@
 						</div>
 
 						<!-- Kéo thả file -->
-						<div id="drop-area" class="border border-primary p-4 text-center rounded">
-							<p class="mb-2">Kéo & thả tệp vào đây hoặc</p>
-							<label for="fileUpload" class="btn btn-primary">Chọn tệp</label>
-							<input type="file" id="fileUpload" multiple accept=".jpg,.jpeg,.png,.pdf" hidden>
-							<div id="file-preview" class="mt-3"></div>
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title">Multiple Files</h5>
+							</div>
+							<div class="card-content">
+								<div class="card-body">
+									<p class="card-text">Using the basic table up, upload here to see how
+										<code>.multiple-files-filepond</code>-based basic file uploader look. You can use
+										<code>allowMultiple</code> or <code>multiple</code> attribute too to implement multiple
+										upload.
+									</p>
+									<!-- File uploader with multiple files upload -->
+									<input type="file" class="multiple-files-filepond" multiple>
+								</div>
+							</div>
 						</div>
 						
 						<!-- Nút Gửi -->
@@ -278,8 +206,9 @@
 	<!-- Need: Apexcharts -->
 	<script src="<?=DIST?>assets/extensions/apexcharts/apexcharts.min.js"></script>
 	<script src="<?=DIST?>assets/static/js/pages/dashboard.js"></script>
-    
-    
+
+
+		
 
 </body>
 

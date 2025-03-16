@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mazer Admin Dashboard</title>
+    
+    
+    
+  <link rel="stylesheet" href="<?=DIST?>assets/compiled/css/app.css">
+  <link rel="stylesheet" href="<?=DIST?>assets/compiled/css/app-dark.css">
+  <link rel="stylesheet" href="<?=DIST?>assets/compiled/css/iconly.css">
+
+  <link rel="stylesheet" href="<?=DIST?>assets/extensions/simple-datatables/style.css">
+
+
+</head>
+
+<body>
+	<script src="<?=DIST?>assets/static/js/initTheme.js"></script>
+    <div id="app">
+        <?php include 'sidebar.php'; ?>
+        <div id="main">
+            
+			<header class="navbar mb-3">
+				<a href="#" class="burger-btn d-block d-xl-none">
+					<i class="bi bi-justify fs-3"></i>
+				</a>
+				<div class="logo fs-1">
+					<a href="<?=ROOT?>home">Move</a>
+				</div>
+			
+				<!--  -->
+				<?php include 'dropdown.php'; ?>
+			</header>
+<div class="page-content"> 
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    Poster
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="h6">Table</div>
+
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>Expiration Date</th>
+                            <th>Status</th>
+                            <th>URL</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+
+                        <?php if (!empty($poster)): ?>
+                            <?php foreach ($poster as $p): ?>
+                                <tr>
+                                    <td><?= $p->expiration_date; ?></td>
+                                    <td>
+                                        <form action="<?=ROOT?>poster/update" method="post">
+                                            <input type="hidden" name="id" value="<?= $p->id; ?>">
+                                            <input type="hidden" name="status" value="<?= ($p->status == 'active') ? 'inactive' : 'active'; ?>">
+                                            <button class="btn <?= ($p->status == 'active') ? 'btn-success' : 'btn-danger'; ?>">
+                                                <?= $p->status ?>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td><?= $p->url; ?></td>
+                                    <td>
+                                        <form action="<?=ROOT?>poster/delete" method="post">
+                                            <input type="hidden" name="id" value="<?= $p->id; ?>">
+                                            <button class="btn">
+                                                <i class="bi bi-x-circle text-danger"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                    </tbody>
+                    
+                </table>
+
+                <div class="h6">Thêm poster</div>
+
+                <form action="<?=ROOT?>poster/insert" method="post" enctype="multipart/form-data" class="border p-3 rounded">
+                    <div class="mb-3">
+                        <label for="poster" class="form-label">Chọn ảnh poster</label>
+                        <input type="file" id="file" name="file" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="expiration_date" class="form-label">Expiration Date</label>
+                        <input type="date" id="expiration_date" name="expiration_date" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="url" class="form-label">URL (mặc định)</label>
+                        <input type="text" id="url" name="url" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label  mx-3">Trạng thái</label>
+                        <button type="button" id="statusBtn" class="btn btn-danger" onclick="toggleStatus()">Inactive</button>
+                        <input type="hidden" id="status" name="status" value="inactive">
+                    </div>
+                    <script>
+                        function toggleStatus() {
+                            let btn = document.getElementById("statusBtn");
+                            let input = document.getElementById("status");
+                    
+                            if (btn.classList.contains("btn-danger")) {
+                                btn.classList.remove("btn-danger");
+                                btn.classList.add("btn-success");
+                                btn.innerText = "Active";
+                                input.value = "active";
+                            } else {
+                                btn.classList.remove("btn-success");
+                                btn.classList.add("btn-danger");
+                                btn.innerText = "Inactive";
+                                input.value = "inactive";
+                            }
+                        }
+                    </script>
+                    
+                    <?php if (!empty($error)) : ?>
+                        <div id="message" class="alert alert-danger h-3" style="visibility: visible;">
+                            <?= implode("<br>", array_map('htmlspecialchars', $error)) ?>
+                        </div>
+                    <?php elseif (!empty($success)) : ?>
+                        <div id="message" class="alert alert-success h-3" style="visibility: visible;">
+                            <?= implode("<br>", array_map('htmlspecialchars', $success)) ?>
+                        </div>
+                    <?php endif; ?>
+
+
+                    <button type="submit" class="btn btn-primary">Tải lên</button>
+                </form>
+
+                <script>
+                    document.getElementById("file").addEventListener("change", function(event) {
+                        let file = event.target.files[0];
+                        if (file) {
+                            let fileName = file.name;
+                            document.getElementById("url").value = "<?=STORAGE?>app/movies/poster/" + fileName;
+                        }
+                    });
+                </script>
+
+
+            </div>
+            
+            
+        </div>
+
+    </section>
+</div>
+
+            <?php include 'footer.php'; ?>
+        </div>
+    </div>
+    <script src="<?=DIST?>assets/static/js/components/dark.js"></script>
+    <script src="<?=DIST?>assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="<?=DIST?>assets/compiled/js/app.js"></script>
+    
+
+    
+	<!-- Need: Apexcharts -->
+	<script src="<?=DIST?>assets/extensions/apexcharts/apexcharts.min.js"></script>
+	<script src="<?=DIST?>assets/static/js/pages/dashboard.js"></script>
+    
+    
+    
+
+    
+    <script src="<?=DIST?>assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+    <script src="<?=DIST?>assets/static/js/pages/simple-datatables.js"></script>
+
+    
+    
+
+</body>
+
+</html>

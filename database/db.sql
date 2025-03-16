@@ -5,6 +5,7 @@ SET time_zone = '+07:00';  -- Việt Nam (UTC+7)
 CREATE TABLE IF NOT EXISTS poster (
     id INT AUTO_INCREMENT PRIMARY KEY,  -- Mã poster tự tăng
     expiration_date DATE NOT NULL,  -- Ngày hết hạn của poster
+    status ENUM('active', 'inactive') DEFAULT 'active',  -- Trạng thái hiển thị (active: hiển thị, inactive: ẩn)
     url VARCHAR(255) NOT NULL  -- Đường dẫn URL của poster (ảnh)
 );
 
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS movie (
 );
 
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,

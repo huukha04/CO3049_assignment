@@ -5,8 +5,11 @@ define('DBUSER', 'root');
 define('DBPASS', '');
 define('DBDRIVER', 'mysql');
 
+define('ROOT', 'http://localhost/CO3049_assignment/public/');
 
-define('ROOT', 'http://localhost/MVC/public/');
+
+define('HTTP', 'http://localhost/CO3049_assignment/');
+define('STORAGE', HTTP . 'storage/');
 define('ASSET', ROOT . 'assets/');
 define('DIST', ROOT . 'dist/');
 
