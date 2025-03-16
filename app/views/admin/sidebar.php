@@ -76,7 +76,7 @@
                         </li>
                         
                         <li class="submenu-item  ">
-                            <a href="<?=ROOT?>admin/contact" class="submenu-link">Film</a>
+                            <a href="<?=ROOT?>movie" class="submenu-link">Movie</a>
                             
                         </li>
                         <li class="submenu-item  ">

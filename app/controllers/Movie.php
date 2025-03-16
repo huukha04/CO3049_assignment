@@ -1,16 +1,16 @@
 <?php
 
-class Poster {
+class Movie {
     use Controller;
 
     public function index()
     {
         $data = [];
         $data['user'] = $_SESSION['user'] ?? null;
-        $poster = new PosterModel();
-        $data['poster'] = $poster->where();
+        $movie = new MovieModel();
+        $data['movie'] = $movie->where();
         
-        $this->view('admin/poster', $data);
+        $this->view('admin/movie', $data);
     }
     public function insert()
     {
@@ -18,12 +18,12 @@ class Poster {
         $data['user'] = $_SESSION['user'] ?? null;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES["file"])) {
-            $poster = new PosterModel();
+            $movie = new MovieModel();
 
-            if ($poster->where(['url' => $_POST['url']])) {
+            if ($movie->where(['url' => $_POST['url']])) {
                 $data['error'] = ['URL is already exist'];
             } else {
-                $targetDir = "../storage/app/movies/posters/"; // Thư mục lưu trữ tệp
+                $targetDir = "../storage/app/movies/movies/"; // Thư mục lưu trữ tệp
                 $targetFile = $targetDir . basename($_FILES["file"]["name"]);
                 
                 // Kiểm tra nếu thư mục chưa tồn tại, hãy tạo nó
@@ -36,25 +36,19 @@ class Poster {
                     die("Lỗi khi tải lên tệp: " . $_FILES["file"]["error"]);
                 }
 
-                // Kiểm tra loại tệp (ví dụ: chỉ cho phép hình ảnh)
-                $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-                $allowedTypes = ["jpg", "jpeg", "png", "gif", "pdf"];
-                if (!in_array($fileType, $allowedTypes)) {
-                    die("Chỉ chấp nhận các tệp: JPG, JPEG, PNG, GIF, PDF.");
-                }
 
                 // Di chuyển tệp tải lên vào thư mục đích
                 if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
-                    $poster->insert($_POST);
-                    $data['success'] = ['Poster uploaded successfully'];
+                    $movie->insert($_POST);
+                    $data['success'] = ['movie uploaded successfully'];
                 } else {
                     $data['error'] = ['Sorry, there was an error uploading your file.'];
                 }
             }
 
         }
-        $data['poster'] = $poster->where();
-        $this->view('admin/poster', $data);
+        $data['movie'] = $movie->where();
+        $this->view('admin/movie', $data);
     }
     public function delete()
     {
@@ -62,12 +56,12 @@ class Poster {
         $data['user'] = $_SESSION['user'] ?? null;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $poster = new PosterModel();
+            $movie = new MovieModel();
 
-            $poster->delete($_POST['id']);
+            $movie->delete($_POST['id']);
         }
-        $data['poster'] = $poster->where();
-        $this->view('admin/poster', $data);
+        $data['movie'] = $movie->where();
+        $this->view('admin/movie', $data);
     }
     public function update()
     {
@@ -75,12 +69,12 @@ class Poster {
         $data['user'] = $_SESSION['user'] ?? null;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $poster = new PosterModel();
+            $movie = new MovieModel();
 
-            $poster->update($_POST['id'], $_POST);
+            $movie->update($_POST['id'], $_POST);
         }
-        $data['poster'] = $poster->where();
-        $this->view('admin/poster', $data);
+        $data['movie'] = $movie->where();
+        $this->view('admin/movie', $data);
     }
 
     

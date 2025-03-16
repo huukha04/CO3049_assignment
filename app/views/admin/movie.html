@@ -39,7 +39,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">
-                    Poster
+                    movie
                 </h5>
             </div>
             <div class="card-body">
@@ -48,7 +48,8 @@
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
-                            <th>Expiration Date</th>
+                            <th>Ngày khởi chiếu</th>
+                            <th>Tên phim</th>
                             <th>Status</th>
                             <th>URL</th>
                             <th>Remove</th>
@@ -57,12 +58,13 @@
                     
                     <tbody>
 
-                        <?php if (!empty($poster)): ?>
-                            <?php foreach ($poster as $p): ?>
+                        <?php if (!empty($movie)): ?>
+                            <?php foreach ($movie as $p): ?>
                                 <tr>
-                                    <td><?= $p->expiration_date; ?></td>
+                                    <td><?= $p->premiere_date; ?></td>
+                                    <td><?= $p->title; ?></td>
                                     <td>
-                                        <form action="<?=ROOT?>poster/update" method="post">
+                                        <form action="<?=ROOT?>movie/update" method="post">
                                             <input type="hidden" name="id" value="<?= $p->id; ?>">
                                             <input type="hidden" name="status" value="<?= ($p->status == 'active') ? 'inactive' : 'active'; ?>">
                                             <button class="btn <?= ($p->status == 'active') ? 'btn-success' : 'btn-danger'; ?>">
@@ -72,7 +74,7 @@
                                     </td>
                                     <td><?= $p->url; ?></td>
                                     <td>
-                                        <form action="<?=ROOT?>poster/delete" method="post">
+                                        <form action="<?=ROOT?>movie/delete" method="post">
                                             <input type="hidden" name="id" value="<?= $p->id; ?>">
                                             <button class="btn">
                                                 <i class="bi bi-x-circle text-danger"></i>
@@ -87,19 +89,13 @@
                     
                 </table>
 
-                <div class="h6">Thêm poster</div>
+                <div class="h6">Thêm movie</div>
 
-                <form action="<?=ROOT?>poster/insert" method="post" enctype="multipart/form-data" class="border p-3 rounded">
+                <form action="<?=ROOT?>movie/insert" method="post" enctype="multipart/form-data" class="border p-3 rounded">
                     <div class="mb-3">
-                        <label for="poster" class="form-label">Chọn ảnh poster</label>
+                        <label for="movie" class="form-label">Chọn ảnh movie</label>
                         <input type="file" id="file" name="file" class="form-control" required>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="expiration_date" class="form-label">Expiration Date</label>
-                        <input type="date" id="expiration_date" name="expiration_date" class="form-control" required>
-                    </div>
-
                     <div class="mb-3">
                         <label for="url" class="form-label">URL (mặc định)</label>
                         <input type="text" id="url" name="url" class="form-control" readonly>
@@ -109,6 +105,67 @@
                         <button type="button" id="statusBtn" class="btn btn-danger" onclick="toggleStatus()">Inactive</button>
                         <input type="hidden" id="status" name="status" value="inactive">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Tên phim</label>
+                        <input type="text" id="title" name="title" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Mô tả</label>
+                        <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="premiere_date" class="form-label">Ngày khởi chiếu</label>
+                        <input type="date" id="premiere_date" name="premiere_date" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="time" class="form-label">Thời lượng (phút)</label>
+                        <input type="number" id="time" name="time" class="form-control" required min="1">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="category_code" class="form-label">Mã phân loại</label>
+                        <input type="text" id="category_code" name="category_code" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Đánh giá</label>
+                        <input type="number" id="rating" name="rating" class="form-control" step="0.1" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="vote_count" class="form-label">Số lượt đánh giá</label>
+                        <input type="number" id="vote_count" name="vote_count" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Quốc gia</label>
+                        <input type="text" id="country" name="country" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="producer" class="form-label">Nhà sản xuất</label>
+                        <input type="text" id="producer" name="producer" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="genre" class="form-label">Thể loại</label>
+                        <input type="text" id="genre" name="genre" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="director" class="form-label">Đạo diễn</label>
+                        <input type="text" id="director" name="director" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="cast" class="form-label">Diễn viên</label>
+                        <textarea id="cast" name="cast" class="form-control" rows="2" required></textarea>
+                    </div>
+                    
                     <script>
                         function toggleStatus() {
                             let btn = document.getElementById("statusBtn");
@@ -147,10 +204,11 @@
                         let file = event.target.files[0];
                         if (file) {
                             let fileName = file.name;
-                            document.getElementById("url").value = "<?=STORAGE?>app/movies/posters/" + fileName;
+                            document.getElementById("url").value = "<?=STORAGE?>app/movies/movies/" + fileName;
                         }
                     });
                 </script>
+                
 
 
             </div>

@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS poster (
 
 CREATE TABLE IF NOT EXISTS movie (
     id INT AUTO_INCREMENT PRIMARY KEY,  -- Mã phim tự tăng
+    status ENUM('active', 'inactive') DEFAULT 'active',  -- Trạng thái hiển thị (active: hiển thị, inactive: ẩn)
     title VARCHAR(255) NOT NULL,  -- Tên phim
     description TEXT NOT NULL,  -- Mô tả nội dung phim
     premiere_date DATE NOT NULL,  -- Ngày khởi chiếu
