@@ -4,8 +4,12 @@ trait Model {
 
     public $message = [];
     protected $allowedColumns = [];
+    protected $allowedShows = [];
     protected $banned = [];
     protected $table = '';
+
+    protected $order_column = "id";
+    protected $order_type = "asc";
 
 
 
@@ -64,33 +68,30 @@ trait Model {
     }
     
     public function where($data = [], $data_not = []) {
-        $keys = array_keys($data);
-        $keys_not = array_keys($data_not);
         $query = "SELECT * FROM $this->table";
-
-        // Chỉ thêm WHERE nếu có điều kiện
-        if (!empty($keys) || !empty($keys_not)) {
-            $query .= " WHERE ";
         
-            foreach ($keys as $key) {
-                $query .= "$key = :$key AND ";
+        if (!empty($data) || !empty($data_not)) {
+            $query .= " WHERE ";
+    
+            $conditions = [];
+            
+            foreach ($data as $key => $value) {
+                $conditions[] = "$key = :$key";
             }
-
-            foreach ($keys_not as $key) {
-                $query .= "$key != :$key AND ";
+            
+            foreach ($data_not as $key => $value) {
+                $conditions[] = "$key != :$key";
             }
-
-            $query = rtrim($query, " AND "); // Xóa "AND" cuối nếu có
+            
+            $query .= implode(" AND ", $conditions);
         }
-
-        $data = array_merge($data, $data_not);
-
-        return $this->PDOquery($query, $data);
+    
+        $query .= " ORDER BY $this->order_column $this->order_type";
+        $params = array_merge($data, $data_not);
+        $result = $this->PDOquery($query, $params);
+        return is_array($result) ? $result : [];
     }
+    
 
-    public function all() {
-        $query = "SELECT * FROM $this->table";
-        return $this->PDOquery($query);
-    }
 
 }

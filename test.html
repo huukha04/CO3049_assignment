@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JustValidate Inside Form - Prevent Submit</title>
+  <style>
+    input, button { display: block; margin: 10px 0; }
+    .js-validate-error-label { color: red; font-size: 0.9em; }
+  </style>
+    <link rel="stylesheet" href="http://localhost/PHP_MVC/public/mazor/assets/compiled/css/app-dark.css">
+</head>
+<body>
+
+  <form id="myForm">
+    <label>
+      Full Name:
+      <input type="text" name="fullname" />
+    </label>
+
+    <label>
+      Email:
+      <input type="email" name="email" />
+    </label>
+
+    <label>
+      Password:
+      <input type="password" name="password" />
+    </label>
+
+    <!-- Nút submit nằm lại trong form -->
+    <button type="submit" id="submitBtn">Submit</button>
+  </form>
+
+  <!-- JustValidate CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/just-validate@latest/dist/just-validate.production.min.js"></script>
+
+  <script>
+    const validation = new JustValidate('#myForm');
+
+    validation
+      .addField('[name="fullname"]', [
+        {
+          rule: 'required',
+          errorMessage: 'Full Name is required',
+        },
+        {
+          rule: 'minLength',
+          value: 3,
+          errorMessage: 'Name must be at least 3 characters',
+        },
+      ])
+      .addField('[name="email"]', [
+        {
+          rule: 'required',
+          errorMessage: 'Email is required',
+        },
+        {
+          rule: 'email',
+          errorMessage: 'Email is invalid',
+        },
+      ])
+      .addField('[name="password"]', [
+        {
+          rule: 'required',
+          errorMessage: 'Password is required',
+        },
+        {
+          rule: 'password',
+          errorMessage: 'Password must be at least 8 characters and contain letters and numbers',
+        },
+      ]);
+
+    // Ngăn form tự submit
+    document.getElementById('myForm').addEventListener('submit', function (e) {
+      e.preventDefault(); // Chặn gửi form
+
+      validation.validate().then(function (isValid) {
+        if (isValid) {
+          // Nếu muốn submit thủ công: 
+          // this.submit();
+        } else {
+          console.log('Form has errors.');
+        }
+      });
+    });
+  </script>
+
+<div id="toggleDark"></div>
+<script type="module" src="http://localhost/PHP_MVC/public/components/toggleDark.js"></script>
+
+</body>
+</html>
