@@ -6,7 +6,7 @@ window.onload = function() {
 };
 
 async function loadPage() {
-    const response = await fetch(`http://localhost/PHP_MVC/public/main/getMedia?id=${mediaId}`);
+    const response = await fetch(`http://localhost/CO3049_assignment/public/main/getMedia?id=${mediaId}`);
     const res = await response.json();
     if (res.status) {
         const movie = res.data[0];
@@ -17,7 +17,7 @@ async function loadPage() {
                     ${movie.classification}
                 </div>
                 <img 
-                    src="http://localhost/PHP_MVC/public/main/displayMedia?id=${mediaId}" 
+                    src="http://localhost/CO3049_assignment/public/main/displayMedia?id=${mediaId}" 
                     alt="Poster"
                     style="width: 100%; height: 100%; object-fit: fill;" 
                 />
@@ -68,7 +68,7 @@ async function loadPage() {
 
 async function loadCinema() {
     try {
-        const response = await fetch(`http://localhost/PHP_MVC/public/main/getCinema`);
+        const response = await fetch(`http://localhost/CO3049_assignment/public/main/getCinema`);
         const data = (await response.json());
         const cinemaSelect = document.getElementById('cinemaSelect');
         cinemaSelect.innerHTML = '<option selected disabled>Chọn rạp</option>';
@@ -147,7 +147,7 @@ async function loadTime(date) {
     try {
         const cinemaSelect = document.getElementById('cinemaSelect');
         const cinemaId = cinemaSelect.value;
-        const response = await fetch(`http://localhost/PHP_MVC/public/main/getShowtime?media_id=${mediaId}&cinema_id=${cinemaId}&date=${date}`);
+        const response = await fetch(`http://localhost/CO3049_assignment/public/main/getShowtime?media_id=${mediaId}&cinema_id=${cinemaId}&date=${date}`);
         const data = await response.json();
 
         const showtimeDetail = document.getElementById('showtime-detail');
@@ -180,7 +180,7 @@ async function loadTime(date) {
             button.value = `${showtime.id}`; // Lưu lại thời gian bắt đầu
 
             button.addEventListener('click', function() {
-                window.location.href = `http://localhost/PHP_MVC/public/main/booking?showtime_id=${showtime.id}`;
+                window.location.href = `http://localhost/CO3049_assignment/public/main/booking?showtime_id=${showtime.id}`;
             });
 
             showtimeDetail.appendChild(button); // Thêm button vào DOM

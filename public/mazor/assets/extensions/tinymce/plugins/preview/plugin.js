@@ -36,9 +36,9 @@
       const preventClicksOnLinksScript = '<script>' + 'document.addEventListener && document.addEventListener("click", function(e) {' + 'for (var elm = e.target; elm; elm = elm.parentNode) {' + 'if (elm.nodeName === "A" && !(' + isMetaKeyPressed + ')) {' + 'e.preventDefault();' + '}' + '}' + '}, false);' + '</script> ';
       const directionality = editor.getBody().dir;
       const dirAttr = directionality ? ' dir="' + encode(directionality) + '"' : '';
-      const previewHtml = '<!DOCTYPE html>' + '<html>' + '<head>' + headHtml + '    <link rel="stylesheet" href="http://localhost/PHP_MVC/public/mazor/assets/compiled/css/app-dark.css">
+      const previewHtml = '<!DOCTYPE html>' + '<html>' + '<head>' + headHtml + '    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
 </head>' + '<body id="' + encode(bodyId) + '" class="mce-content-body ' + encode(bodyClass) + '"' + dirAttr + '>' + editor.getContent() + preventClicksOnLinksScript + '<div id="toggleDark"></div>
-<script type="module" src="http://localhost/PHP_MVC/public/components/toggleDark.js"></script>
+<script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
 
 </body>' + '</html>';
       return previewHtml;

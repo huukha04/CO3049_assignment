@@ -52,7 +52,7 @@ async function register() {
         const errorMessage = document.getElementById("error-message");
         const dataForm = new FormData(document.getElementById("registerForm"));
         // Gửi yêu cầu đăng ký đến server
-        const response = await fetch('http://localhost/PHP_MVC/public/auth/register', {
+        const response = await fetch('http://localhost/CO3049_assignment/public/auth/register', {
             method: 'POST',
             body: dataForm,
         });
@@ -66,7 +66,7 @@ async function register() {
             errorMessage.style.display = "block";
 
 
-            window.location.href = 'http://localhost/PHP_MVC/public/auth/login';
+            window.location.href = 'http://localhost/CO3049_assignment/public/auth/login';
         } else {
             errorMessage.textContent = data.message || "Đăng ký thất bại. Vui lòng thử lại.";
             errorMessage.classList.add("alert-danger");

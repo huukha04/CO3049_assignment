@@ -5,7 +5,7 @@ window.onload = function() {
 };
 
 async function loadFooter() {
-    const response = await fetch('http://localhost/PHP_MVC/public/component/footer');
+    const response = await fetch('http://localhost/CO3049_assignment/public/component/footer');
     const res = await response.text();
     document.getElementById('footer').innerHTML = res;
 }
@@ -49,7 +49,7 @@ async function loadPaymentInfo() {
             const dataF = new FormData();
             dataF.append('order_code', data.orderCode);
 
-            const response = await fetch(`http://localhost/PHP_MVC/public/main/cancelPayment`, {
+            const response = await fetch(`http://localhost/CO3049_assignment/public/main/cancelPayment`, {
                 method: 'POST'
                 , body: dataF
             , });
@@ -57,7 +57,7 @@ async function loadPaymentInfo() {
             const res = await response.json();
 
             if (res.status) {
-                window.location.href = `http://localhost/PHP_MVC/public/status/cancel`;
+                window.location.href = `http://localhost/CO3049_assignment/public/status/cancel`;
             } else {
                 alert('Error: ' + res.message);
             }
@@ -84,7 +84,7 @@ async function watchPaymentStatus(orderCode) {
     let retryInterval = 5000; // Khoảng thời gian kiểm tra lại (5 giây)
     try {
         while (true) {
-            const response = await fetch(`http://localhost/PHP_MVC/public/main/getPayment?order_code=${orderCode}`);
+            const response = await fetch(`http://localhost/CO3049_assignment/public/main/getPayment?order_code=${orderCode}`);
             const data = await response.json();
             console.log(data.data);
 
@@ -103,7 +103,7 @@ async function watchPaymentStatus(orderCode) {
             switch (paymentData.status) {
                 case 'PAID':
                     messageElement.innerHTML = `<div class="alert alert-success">Đã thanh toán thành công</div>`;
-                    window.location.href = 'http://localhost/PHP_MVC/public/status/success';
+                    window.location.href = 'http://localhost/CO3049_assignment/public/status/success';
                     break;
 
                 case 'PENDING':
@@ -112,12 +112,12 @@ async function watchPaymentStatus(orderCode) {
 
                 case 'EXPIRED':
                     messageElement.innerHTML = `<div class="alert alert-danger">Thanh toán thất bại</div>`;
-                    window.location.href = 'http://localhost/PHP_MVC/public/status/cancel';
+                    window.location.href = 'http://localhost/CO3049_assignment/public/status/cancel';
                     break;
 
                 case 'CANCELLED':
                     messageElement.innerHTML = `<div class="alert alert-danger">Đơn hàng đã bị huỷ</div>`;
-                    window.location.href = 'http://localhost/PHP_MVC/public/status/cancel';
+                    window.location.href = 'http://localhost/CO3049_assignment/public/status/cancel';
                     break;
 
                 default:

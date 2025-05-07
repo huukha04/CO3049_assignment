@@ -3,7 +3,7 @@ let currentPage = 1;
 const itemsPerPage = 7; // Số rạp hiển thị trên mỗi trang
 async function getCinema() {
     try {
-        const response = await fetch('http://localhost/PHP_MVC/public/main/getCinema');
+        const response = await fetch('http://localhost/CO3049_assignment/public/main/getCinema');
         const result = await response.json();
         if (result.status) {
             allCinemas = result.data;
@@ -113,7 +113,7 @@ async function getMovieByCinema(cinemaId, container) {
             return;
         }
 
-        let url = 'http://localhost/PHP_MVC/public/main/getShowtime';
+        let url = 'http://localhost/CO3049_assignment/public/main/getShowtime';
         if (cinemaId) {
             url += `?cinema_id=${cinemaId}`;
         }
@@ -147,7 +147,7 @@ async function getMovieByCinema(cinemaId, container) {
                         <div class="col-3 d-flex align-items-center">
                             <div class="card-image" style="width: 100%; aspect-ratio: 3 / 5; overflow: hidden; border-radius: 12px;">
                                 <img 
-                                    src="http://localhost/PHP_MVC/public/main/displayMedia?id=${media_id}" 
+                                    src="http://localhost/CO3049_assignment/public/main/displayMedia?id=${media_id}" 
                                     alt="Poster"
                                     style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" 
                                     class="rounded-3 shadow-sm hover-zoom"
@@ -167,7 +167,7 @@ async function getMovieByCinema(cinemaId, container) {
                                             </div>
                                             <div class="d-flex flex-wrap gap-2">
                                                 ${slots.map(slot => `
-                                                    <a href="http://localhost/PHP_MVC/public/main/booking?showtime_id=${slot.id}" 
+                                                    <a href="http://localhost/CO3049_assignment/public/main/booking?showtime_id=${slot.id}" 
                                                     class="btn btn-outline-primary px-3 py-2 rounded-pill shadow-sm fw-medium"
                                                     style="transition: all 0.2s ease-in-out;">
                                                        ${slot.start_time.slice(11, 16)}

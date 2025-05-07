@@ -4,7 +4,7 @@ window.onload = function() {
 };
 async function loadPoster() {
     try {
-        const response = await fetch('http://localhost/PHP_MVC/public/main/getMedia?status=showing&type=poster');
+        const response = await fetch('http://localhost/CO3049_assignment/public/main/getMedia?status=showing&type=poster');
         const res = await response.json();
         console.log(res);
         if (res.status) {
@@ -18,7 +18,7 @@ async function loadPoster() {
                 slide.innerHTML = `
                     <div class="card-image" style="width: 100%; aspect-ratio: 21 / 7; overflow: hidden; position: relative; border-radius: 12px;">
                         <img 
-                            src="http://localhost/PHP_MVC/public/main/displayMedia?id=${poster.id}" 
+                            src="http://localhost/CO3049_assignment/public/main/displayMedia?id=${poster.id}" 
                             alt="Poster"
                             style="width: 100%; height: 100%; object-fit: fill;" 
                         />
@@ -52,7 +52,7 @@ async function loadPoster() {
 
 async function loadMovie() {
     try {
-        const response = await fetch('http://localhost/PHP_MVC/public/main/getMedia?status=showing&type=movie');
+        const response = await fetch('http://localhost/CO3049_assignment/public/main/getMedia?status=showing&type=movie');
         const res = await response.json();
         console.log(res);
 
@@ -80,7 +80,7 @@ async function loadMovie() {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide');
                 slide.onclick = function() {
-                    window.open(`http://localhost/PHP_MVC/public/main/media?media_id=${movie.id}`, '_blank');
+                    window.open(`http://localhost/CO3049_assignment/public/main/media?media_id=${movie.id}`, '_blank');
                 };
 
                 slide.innerHTML = `
@@ -91,7 +91,7 @@ async function loadMovie() {
 
                         
                         <img 
-                            src="http://localhost/PHP_MVC/public/main/displayMedia?id=${movie.id}" 
+                            src="http://localhost/CO3049_assignment/public/main/displayMedia?id=${movie.id}" 
                             alt="Poster"
                             style="width: 100%; height: 100%; object-fit: fill;" 
                         />
@@ -166,7 +166,7 @@ async function loadMovie() {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide');
                 slide.onclick = function() {
-                    window.open(`http://localhost/PHP_MVC/public/main/media?media_id=${movie.id}`, '_blank');
+                    window.open(`http://localhost/CO3049_assignment/public/main/media?media_id=${movie.id}`, '_blank');
                 };
 
                 slide.innerHTML = `
@@ -177,7 +177,7 @@ async function loadMovie() {
 
                         
                         <img 
-                            src="http://localhost/PHP_MVC/public/main/displayMedia?id=${movie.id}" 
+                            src="http://localhost/CO3049_assignment/public/main/displayMedia?id=${movie.id}" 
                             alt="Poster"
                             style="width: 100%; height: 100%; object-fit: fill;" 
                         />

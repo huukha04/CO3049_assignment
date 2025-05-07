@@ -22,5 +22,5 @@ define('WAIT_TIME', 60 * 60 * 24 * 30); // 30 ngày
 
 
 
-define('ROOT', 'http://localhost/PHP_MVC/public/');
+define('ROOT', 'http://localhost/CO3049_assignment/public/');
 'http://localhost/phpmyadmin/';

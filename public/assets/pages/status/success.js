@@ -7,6 +7,6 @@ const countdown = setInterval(() => {
 
     if (seconds <= 0) {
         clearInterval(countdown);
-        window.location.href = 'http://localhost/PHP_MVC/public/';
+        window.location.href = 'http://localhost/CO3049_assignment/public/';
     }
 }, 1000);

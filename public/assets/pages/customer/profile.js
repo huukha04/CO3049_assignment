@@ -1,5 +1,5 @@
 let cropper;
-let currentAvatarUrl = 'http://localhost/PHP_MVC/public/static/avatar.webp';
+let currentAvatarUrl = 'http://localhost/CO3049_assignment/public/static/avatar.webp';
 
 // Open file dialog when clicking change avatar
 function inputAvatar() {
@@ -64,7 +64,7 @@ async function cropImage() {
             formData.append('file', blob, 'avatar.webp');
 
             try {
-                const res = await fetch('http://localhost/PHP_MVC/public/customer/uploadAvatar', {
+                const res = await fetch('http://localhost/CO3049_assignment/public/customer/uploadAvatar', {
                     method: 'POST'
                     , body: formData
                 });
@@ -158,7 +158,7 @@ async function changePassword() {
     const formData = new FormData(document.getElementById('changePasswordForm'));
 
     try {
-        const response = await fetch('http://localhost/PHP_MVC/public/customer/changePassword', {
+        const response = await fetch('http://localhost/CO3049_assignment/public/customer/changePassword', {
             method: 'POST'
             , body: formData
         , });
@@ -192,7 +192,7 @@ loadOrder();
 
 async function loadOrder() {
     try {
-        const response = await fetch("http://localhost/PHP_MVC/public/customer/getOrder");
+        const response = await fetch("http://localhost/CO3049_assignment/public/customer/getOrder");
         const result = await response.json();
 
         if (result.status && Array.isArray(result.data)) {
@@ -294,7 +294,7 @@ function getRankInfo(point) {
     }; // Giả định max để hiển thị % dễ
 }
 async function loadInfo() {
-    const response = await fetch('http://localhost/PHP_MVC/public/customer/getInfo');
+    const response = await fetch('http://localhost/CO3049_assignment/public/customer/getInfo');
     const data = await response.json();
     if (data.status) {
         const info = data.data;
@@ -333,7 +333,7 @@ async function loadInfo() {
 async function updateInfo() {
     const form = document.getElementById('profileForm');
     const formData = new FormData(form);
-    const response = await fetch('http://localhost/PHP_MVC/public/customer/updateInfo', {
+    const response = await fetch('http://localhost/CO3049_assignment/public/customer/updateInfo', {
         method: 'POST'
         , body: formData
     });

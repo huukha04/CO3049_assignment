@@ -45,7 +45,7 @@ async function login() {
             dataForm.append('remember', 'off');
         }
         // Gửi yêu cầu đăng ký đến server
-        const response = await fetch('http://localhost/PHP_MVC/public/auth/login', {
+        const response = await fetch('http://localhost/CO3049_assignment/public/auth/login', {
             method: 'POST',
             body: dataForm,
         });
@@ -59,7 +59,7 @@ async function login() {
             errorMessage.style.display = "block";
 
 
-            window.location.href = 'http://localhost/PHP_MVC/public/';
+            window.location.href = 'http://localhost/CO3049_assignment/public/';
         } else {
             errorMessage.textContent = data.message || "Đăng nhập thất bại. Vui lòng thử lại.";
             errorMessage.classList.add("alert-danger");
