@@ -26,11 +26,14 @@ async function loadPage() {
 
         document.getElementById('content').innerHTML = `
             <div class="movie-details">
-                <h1 class="movie-title">${movie.title}</h1>
-                <p class="movie-description">${movie.description}</p>
-                <p class="movie-duration"><i class="bi bi-clock"></i> <strong>Thời gian:</strong> ${movie.duration} phút</p>
-                <p class="movie-release"><i class="bi bi-calendar"></i> <strong>Ngày phát hành:</strong> ${movie.start_date}</p>
-                <p class="movie-genre"><i class="bi bi-tags"></i> <strong>Thể loại:</strong> ${movie.genre}</p>
+                <h1 class="text-4xl font-bold bg-gradient-to-r from-red-500 via-yellow-500 to-red-500 bg-clip-text text-transparent drop-shadow-lg">
+                ${movie.title}
+                </h1>
+                <h6 class="movie-duration"><i class="bi bi-clock"></i> <strong>Thời gian:</strong> ${movie.duration} phút</h6>
+                <h6 class="movie-release"><i class="bi bi-calendar"></i> <strong>Ngày phát hành:</strong> ${movie.start_date}</h6>
+                <h6 class="movie-genre"><i class="bi bi-tags"></i> <strong>Thể loại:</strong> ${movie.genre}</h6>
+                <h5 class="movie-description">${movie.description}</h5>
+
             </div>
         `;
 
@@ -147,7 +150,7 @@ async function loadTime(date) {
     try {
         const cinemaSelect = document.getElementById('cinemaSelect');
         const cinemaId = cinemaSelect.value;
-        const response = await fetch(`http://localhost/CO3049_assignment/public/main/getShowtime?media_id=${mediaId}&cinema_id=${cinemaId}&date=${date}`);
+        const response = await fetch(`http://localhost/CO3049_assignment/public/main/getShowtimeByCinemaId?media_id=${mediaId}&cinema_id=${cinemaId}&date=${date}`);
         const data = await response.json();
 
         const showtimeDetail = document.getElementById('showtime-detail');
@@ -158,8 +161,11 @@ async function loadTime(date) {
         }
 
         console.log(data);
-
         data.data.forEach(showtime => {
+            if(date !== showtime.date) {
+                showtimeDetail.innerHTML = 'Chưa có lịch chiếu cho ngày này. Hãy quay lại sau. Xin cám ơn.';
+                return;
+            }
             const button = document.createElement('button');
             button.type = 'button';
 

@@ -1,126 +1,3 @@
-let mediaApi;
-const mediaOptions = {
-    defaultColDef: {
-        editable: true,
-        filter: true,
-        flex: 1,
-        minWidth: 100,
-    },
-    columnDefs: [{ // Hành động (buttons)
-            headerName: "Hành động",
-            cellRenderer: (params) => {
-                return `
-                    <button class="btn btn-sm btn-primary" onclick="editMedia(${params.data.id})">Sửa</button>
-                    <button class="btn btn-sm btn-danger" onclick="deleteMedia(${params.data.id})">Xóa</button>
-                `;
-            },
-            pinned: 'right',
-            maxWidth: 130,
-        },
-        {
-            field: "id",
-            headerName: "ID",
-            minWidth: 70
-        },
-        {
-            field: "filename",
-            headerName: "Hình Ảnh",
-            minWidth: 150
-        },
-        {
-            field: "title",
-            headerName: "Tiêu Đề",
-            minWidth: 200
-        },
-        {
-            field: "description",
-            headerName: "Mô Tả",
-            minWidth: 300
-        },
-        {
-            field: "type",
-            headerName: "Loại",
-            minWidth: 100
-        },
-        {
-            field: "status",
-            headerName: "Trạng Thái",
-            minWidth: 120
-        },
-        {
-            field: "start_date",
-            headerName: "Ngày Bắt Đầu",
-            minWidth: 150
-        },
-        {
-            field: "end_date",
-            headerName: "Ngày Kết Thúc",
-            minWidth: 150
-        },
-        {
-            field: "duration",
-            headerName: "Thời Lượng (phút)",
-            minWidth: 150
-        },
-        {
-            field: "genre",
-            headerName: "Thể Loại",
-            minWidth: 150
-        },
-        {
-            field: "trailer",
-            headerName: "Trailer",
-            minWidth: 200
-        },
-        {
-            field: "language",
-            headerName: "Ngôn Ngữ",
-            minWidth: 120
-        },
-        {
-            field: "country",
-            headerName: "Quốc Gia",
-            minWidth: 120
-        },
-        {
-            field: "classification",
-            headerName: "Phân Loại",
-            minWidth: 100
-        },
-        {
-            field: "created_at",
-            headerName: "Ngày Tạo",
-            minWidth: 180
-        },
-        {
-            field: "updated_at",
-            headerName: "Ngày Cập Nhật",
-            minWidth: 180
-        },
-    ],
-    paginationAutoPageSize: true,
-    pagination: true,
-    localeText: {
-        page: 'Trang',
-        to: 'đến',
-        of: 'trong tổng',
-        nextPage: 'Trang sau',
-        lastPage: 'Trang cuối',
-        firstPage: 'Trang đầu',
-        previousPage: 'Trang trước',
-        loadingOoo: 'Đang tải...',
-    },
-};
-
-function fetchAndRenderTable() {
-    const type = document.querySelector('input[name="typeGet"]:checked').value;
-    fetch(`http://localhost/CO3049_assignment/public/admin/getMedia?type=${type}`)
-        .then(response => response.json())
-        .then(data => {
-            mediaApi.setGridOption("rowData", []);
-            mediaApi.setGridOption("rowData", data.data);
-        });
-}
 
 window.onload = function() {
     handleTypeChange();
@@ -149,18 +26,6 @@ window.onload = function() {
     }
 
 
-
-
-    const gridDiv = document.querySelector("#mediaTable");
-    mediaApi = agGrid.createGrid(gridDiv, mediaOptions);
-
-    document.querySelectorAll('input[name="typeGet"]').forEach((radio) => {
-        radio.addEventListener('change', fetchAndRenderTable);
-    });
-
-    fetchAndRenderTable();
-
-
 };
 
 document.getElementById("type").addEventListener("change", handleTypeChange);
@@ -177,9 +42,9 @@ function handleTypeChange() {
 }
 
 
-const validationMeida = new JustValidate('#mediaForm');
+const validationMedia = new JustValidate('#mediaForm');
 
-validationMeida
+validationMedia
     .addField('#file', [{
         rule: 'minFilesCount',
         value: 1,
@@ -233,7 +98,7 @@ validationMeida
     ]);
 
 if (document.querySelector('#mediaForm select[name="type"]').value === "movie") {
-    validationMeida
+    validationMedia
         .addField('[name="duration"]', [{
                 rule: 'required',
                 errorMessage: 'Thời gian không được bỏ trống'
@@ -314,7 +179,7 @@ async function deleteMedia(id) {
         });
         const result = await response.json();
         if (result.status) {
-            fetchAndRenderTable();
+            fetchAndRenderMediaTable();
         } else {
             console.error("Lỗi khi xóa:", result.message);
         }
@@ -392,7 +257,7 @@ async function updateMedia() {
         if (result.status) {
             document.getElementById('updateMessage').innerHTML = 'Cập nhật thành công!';
             document.getElementById('updateMessage').style.color = 'green';
-            fetchAndRenderTable();
+            fetchAndRenderMediaTable();
         } else {
             document.getElementById('updateMessage').innerHTML = result.message || 'Cập nhật thất bại!';
             document.getElementById('updateMessage').style.color = 'red';
@@ -408,3 +273,93 @@ function getMediaCSV() {
     const type = document.querySelector('input[name="typeGet"]:checked').value;
     window.location.href = `http://localhost/CO3049_assignment/public/admin/getMediaCSV?type=${type}`;
 }
+
+async function fetchAndRenderMediaTable() {
+    try {
+        const type = document.querySelector('input[name="typeGet"]:checked').value;
+        const response = await fetch(`http://localhost/CO3049_assignment/public/admin/getMedia?type=${type}`);
+        const mediaList = await response.json();
+        if ($.fn.DataTable.isDataTable('#table1')) {
+            $('#table1').DataTable().destroy();
+            $('#table1').DataTable().clear(); 
+        }
+        // Kiểm tra kết quả trả về từ API
+        if (mediaList.status) {
+            // Nếu DataTable đã được khởi tạo thì hủy khởi tạo lại
+            
+
+            const tbody = document.querySelector("#table1 tbody");
+            tbody.innerHTML = ""; // Xóa dữ liệu cũ trong bảng
+
+            mediaList.data.forEach((media) => {
+                const statusClass = {
+                    available: "text-success fw-bold",
+                    unavailable: "text-danger fw-bold",
+                }[media.status] || "";
+
+                // Cắt bớt mô tả nếu quá dài
+                const maxDescriptionLength = 10; // Độ dài tối đa của mô tả ngắn
+                const shortDescription = media.description.length > maxDescriptionLength 
+                    ? media.description.substring(0, maxDescriptionLength) + '...' 
+                    : media.description;
+
+                // Tạo hàng dữ liệu cho bảng
+                const row = `
+                    <tr>
+                        <td>${media.id}</td>
+                        <td>${media.title}</td>
+                        <td>
+                            <span class="short-desc">${shortDescription}</span>
+                            <span class="full-desc" style="display: none;">${media.description}</span>
+                            ${media.description.length > maxDescriptionLength ? 
+                                `<a href="#" class="toggle-desc" onclick="toggleDescription(event, this)">Xem thêm</a>` 
+                                : ""}
+                        </td>
+                        <td>${media.type}</td>
+                        <td class="${statusClass}">${media.status}</td>
+                        <td>${media.start_date}</td>
+                        <td>${media.end_date}</td>
+                        <td>${media.duration}</td>
+                        <td>${media.genre}</td>
+                        <td><a href="${media.trailer}" target="_blank">Xem trailer</a></td>
+                        <td>${media.language}</td>
+                        <td>${media.country}</td>
+                        <td>${media.classification}</td>
+                        <td>${media.created_at}</td>
+                        <td>${media.updated_at}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editMedia(${media.id})">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteMedia(${media.id})">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML("beforeend", row);
+            });
+
+            // Khởi tạo lại DataTable sau khi render dữ liệu
+            $('#table1').DataTable();
+        } else {
+        }
+    } catch (err) {
+        console.error("Lỗi khi load sản phẩm:", err);
+    }
+}
+
+// Hàm toggle mô tả dài/ngắn
+function toggleDescription(event, link) {
+    const fullDesc = link.closest('td').querySelector('.full-desc');
+    const shortDesc = link.closest('td').querySelector('.short-desc');
+    
+    fullDesc.style.display = fullDesc.style.display === 'none' ? 'inline' : 'none';
+    shortDesc.style.display = shortDesc.style.display === 'inline' ? 'none' : 'inline';
+    link.textContent = link.textContent === 'Xem thêm' ? 'Thu gọn' : 'Xem thêm';
+    event.preventDefault();
+}
+
+// Gọi hàm để tải dữ liệu khi trang được tải
+fetchAndRenderMediaTable();
+document.querySelectorAll('input[name="typeGet"]').forEach((radio) => {
+    radio.addEventListener('change', function() {
+        fetchAndRenderMediaTable();
+    });
+});

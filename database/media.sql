@@ -1,6 +1,7 @@
 INSERT INTO media ( filename, title, description, type, status, start_date, end_date, duration, genre, trailer, language, country, classification)
 VALUES
-('movie1.webp', 'Cuộc Chiến Cuối Cùng', 'Một nhóm chiến binh gan dạ hợp lực để chống lại thế lực bóng tối đe dọa nhân loại.', 'movie', 'showing', '2025-09-01', '2026-05-20', 120, 'Hành động', 'https://youtube.com/trailer1', 'Tiếng Việt', 'Việt Nam', 'T13'),
+('movie1.webp', 'Địa đạo', 'Địch mở cuộc tấn công vào chiến khu Bình An Đông, trận càn lần này chúng quyết đào xới cho được căn cứ trọng điểm của phe ta. Đội trưởng Bảy Theo tập hợp anh em du kích cho trận cuối, có bao nhiêu trang bị cũng quyết “chơi cho tụi nó biết Địa Đạo lợi hại ra sao”.
+Bộ phim đáng mong đợi nhất tháng 4 lần này, tranh thủ lên lịch ra rạp thôi!', 'movie', 'showing', '2025-09-01', '2026-05-20', 120, 'Hành động', 'https://www.youtube.com/embed/-OGDDtsIBHA?si=D8vP68JW52VeJMb0', 'Tiếng Việt', 'Việt Nam', 'T13'),
 ('movie2.webp', 'Hẹn Hò Với Sao Hollywood', 'Một cô gái Việt tình cờ gặp gỡ một diễn viên nổi tiếng người Mỹ và tạo nên câu chuyện tình lãng mạn hài hước.', 'movie', 'showing', '2025-09-01', '2026-05-19', 110, 'Hài', 'https://youtube.com/trailer2', 'Tiếng Anh', 'Mỹ', 'P'),
 ('movie3.webp', 'Bóng Ma Nhà Cũ', 'Một gia đình chuyển đến một ngôi nhà mới và phát hiện ra những bí mật kinh hoàng được chôn giấu từ quá khứ.', 'movie', 'showing', '2025-09-01', '2026-05-18', 90, 'Kinh dị', 'https://youtube.com/trailer3', 'Tiếng Việt', 'Hàn Quốc', 'T16'),
 ('movie4.webp', 'Lá Thư Từ Mùa Thu', 'Một mối tình sâu đậm giữa hai người trẻ tuổi vượt qua nhiều rào cản để đến được với nhau.', 'movie', 'showing', '2025-09-30', '2026-05-15', 105, 'Tình cảm', 'https://youtube.com/trailer4', 'Tiếng Hàn', 'Hàn Quốc', 'T18'),
@@ -13,7 +14,7 @@ VALUES
 
 INSERT INTO media ( filename, title, description, type, status, start_date, end_date, duration, genre, trailer, language, country, classification)
 VALUES
-('movie11.webp', 'Biệt Đội Báo Thù', 'Một nhóm siêu anh hùng hợp lực để cứu thế giới khỏi kẻ thù tàn ác.', 'movie', 'showing', '2025-04-01', '2026-06-01', 110, 'Hành động', 'https://youtube.com/trailer11', 'Tiếng Việt', 'Việt Nam', 'T13'),
+('movie11.webp', 'Gấu yêu của anh', 'Điện ảnh Thái từ lâu đã nổi tiếng với khả năng kết hợp giữa những tình huống đời thường dở khóc dở cười và các yếu tố văn hóa đặc trưng như tín ngưỡng, phong tục. Tiếp thu những tinh hoa ấy, Gấu Yêu Của Anh cũng khai thác yếu tố gây cười, đậm chất Thái Lan để tạo nên sức hút riêng biệt.', 'movie', 'showing', '2025-04-01', '2026-06-01', 110, 'Hành động', 'http://localhost/CO3049_assignment/public/main/media?media_id=11', 'Tiếng Việt', 'Việt Nam', 'T13'),
 ('movie12.webp', 'Thư Ký Bất Đắc Dĩ', 'Câu chuyện hài hước về một anh chàng lười biếng bỗng dưng trở thành trợ lý cho nữ CEO khó tính.', 'movie', 'showing', '2025-04-07', '2026-05-01', 120, 'Hài', 'https://youtube.com/trailer12', 'Tiếng Anh', 'Mỹ', 'P'),
 ('movie13.webp', 'Tiếng Gọi Từ Nghĩa Địa', 'Một hồn ma trở về báo thù những người đã giết hại mình.', 'movie', 'showing', '2025-04-02', '2026-07-01', 115, 'Kinh dị', 'https://youtube.com/trailer13', 'Tiếng Hàn', 'Hàn Quốc', 'T18'),
 ('movie14.webp', 'Yêu Như Lần Đầu', 'Câu chuyện tình yêu đẹp nhưng buồn giữa hai người trẻ bị chia cắt bởi số phận.', 'movie', 'showing', '2025-04-03', '2026-06-15', 105, 'Tình cảm', 'https://youtube.com/trailer14', 'Tiếng Nhật', 'Nhật Bản', 'T13'),

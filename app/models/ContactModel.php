@@ -68,4 +68,9 @@ class ContactModel
             echo "Không gửi được email. Lỗi: {$mail->ErrorInfo}";
         }
     }
+
+
+    public function sendInfoOrder($data) {
+        
+    }
 }

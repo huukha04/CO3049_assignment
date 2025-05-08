@@ -66,28 +66,12 @@ document.querySelector('#sidebar').insertAdjacentHTML("beforeend", `
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-item has-sub">
-                    <a href="#" class='sidebar-link'>
+                <li class="sidebar-item">
+                    <a href="http://localhost/CO3049_assignment/public/admin/revenue" class='sidebar-link'>
                         <i class="bi bi-journal-check"></i>
                         <span>Doanh thu</span>
                     </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="http://localhost/CO3049_assignment/public/admin/revenue?view=productPage" class='submenu-link'>
-                                <span>Danh số theo sản phẩm</span>
-                            </a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="http://localhost/CO3049_assignment/public/admin/revenue?view=moviePage" class='submenu-link'>
-                                <span>Doanh số theo phim</span>
-                            </a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="http://localhost/CO3049_assignment/public/admin/revenue?view=cinemaPage" class='submenu-link'>
-                                <span>Doanh số theo rạp</span>
-                            </a>
-                        </li>
-                    </ul>
+                    
                 </li>
                 
 
@@ -127,7 +111,23 @@ document.querySelector('#sidebar').insertAdjacentHTML("beforeend", `
     });
 
 
-    
+    // <ul class="submenu ">
+    //                     <li class="submenu-item ">
+    //                         <a href="http://localhost/CO3049_assignment/public/admin/revenue?view=productPage" class='submenu-link'>
+    //                             <span>Danh số theo sản phẩm</span>
+    //                         </a>
+    //                     </li>
+    //                     <li class="submenu-item">
+    //                         <a href="?view=moviePage" class='submenu-link'>
+    //                             <span>Doanh số theo phim</span>
+    //                         </a>
+    //                     </li>
+    //                     <li class="submenu-item">
+    //                         <a href="http://localhost/CO3049_assignment/public/admin/revenue?view=cinemaPage" class='submenu-link'>
+    //                             <span>Doanh số theo rạp</span>
+    //                         </a>
+    //                     </li>
+    //                 </ul>
 //     <li class="sidebar-item has-sub">
 //     <a href="#" class='sidebar-link'>
 //         <i class="bi bi-journal-check"></i>

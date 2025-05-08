@@ -100,6 +100,8 @@ class MainController {
         exit;
     }
 
+    
+
     public function displayMedia() {
         if($_SERVER['REQUEST_METHOD'] == 'GET') {
             $mediaModel = new MediaModel();

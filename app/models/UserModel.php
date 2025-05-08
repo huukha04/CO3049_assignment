@@ -11,7 +11,6 @@ class UserModel
             'name',
             'phone',
             'address',
-            'avatar',
             'id_card',
             'point',
         ];
@@ -157,7 +156,6 @@ class UserModel
                         'name' => $user[0]->name ,
                         'phone' => $user[0]->phone,
                         'address' => $user[0]->address,
-                        'avatar' => $user[0]->avatar,
                         'id_card' => $user[0]->id_card,
                         'point' => $user[0]->point,
                         'avatar' => $avatar,

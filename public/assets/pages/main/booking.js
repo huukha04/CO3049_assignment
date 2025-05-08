@@ -124,15 +124,18 @@ function startCountdown() {
         countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
         if (countdownDuration <= 0) {
-            clearInterval(countdownInterval);
-            countdownInterval = null;
+    clearInterval(countdownInterval);
+    countdownInterval = null;
 
-            confirmBtn.disabled = true;
-            confirmBtn.classList.add("btn-secondary");
-            confirmBtn.classList.remove("btn-primary");
+    confirmBtn.disabled = true;
+    confirmBtn.classList.add("btn-secondary");
+    confirmBtn.classList.remove("btn-primary");
 
-            countdownElement.textContent = "Hết thời gian";
-        }
+    countdownElement.textContent = "Hết thời gian";
+
+    // Tự động load lại trang
+    location.reload();
+}
 
         countdownDuration--;
     }, 1000);
@@ -150,15 +153,19 @@ async function loadBookingInfo() {
             document.getElementById("roomName").innerHTML = bookingInfo.room_name;
             document.getElementById("showtime").innerHTML = bookingInfo.showtime;
 
-            const seatList = bookingInfo.seat_list;
-            const seatCodes = seatList.map(seat => seat.code.toLowerCase());
-            document.getElementById("seatList").innerHTML = seatCodes.join(", ") || "Chưa chọn ghế";
+// Xử lý danh sách ghế
+const seatList = bookingInfo.seat_list || [];
+const seatCodes = seatList.map(seat => seat.code.toLowerCase());
+document.getElementById("seatList").innerHTML = seatCodes.join(", ") || "Chưa chọn ghế";
 
-            const productList = bookingInfo.product_list;
-            const productDetails = productList.map(product => `${product.name} (x${product.quantity})`);
-            document.getElementById("productList").innerHTML = productDetails.join(", ") || "Chưa chọn sản phẩm";
+// Xử lý danh sách sản phẩm
+const productList = bookingInfo.product_list || [];
+const productDetails = productList.map(product => `${product.name} (x${product.quantity})`);
+document.getElementById("productList").innerHTML = productDetails.join(", ") || "Chưa chọn sản phẩm";
 
             document.getElementById("totalPrice").innerHTML = bookingInfo.total_price || "0";
+            const confirmButton = document.getElementById("confirmBooking");
+            confirmButton.disabled = bookingInfo.total_price === 0;
         }
     } catch (error) {
         console.error('Error:', error);

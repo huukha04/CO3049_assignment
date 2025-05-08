@@ -1,5 +1,10 @@
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    document.getElementById("dateSelect").addEventListener("change", function() {
+        loadShowtime();
+    });
+    
     const validationProduct = new JustValidate('#productForm');
     validationProduct
         .addField('[name="name"]', [{
@@ -376,9 +381,6 @@ async function deleteSeat() {
     }
 }
 
-document.getElementById("dateSelect").addEventListener("change", function() {
-    loadShowtime();
-});
 
 async function loadInfoCinema() {
     const cinemaId = document.getElementById("cinemaSelect").value;
@@ -440,6 +442,7 @@ async function loadSelectRoom() {
     }
 }
 document.getElementById("roomSelect").addEventListener("change", function() {
+    loadShowtime();
     loadSeat();
 });
 
@@ -722,11 +725,15 @@ async function loadTimeSelect() {
 async function loadShowtime() {
     const roomId = document.getElementById("roomSelect").value;
     const date = document.getElementById("dateSelect").value;
+    document.querySelector("#showtimeTimeline").innerHTML = '';
 
     try {
         const response = await fetch(`http://localhost/CO3049_assignment/public/admin/getShowtimeForAdmin?room_id=${roomId}&date=${date}`);
         const data = await response.json();
-        if (!data.status && !data.data) return; 
+        if (!data.status && !data.data) {
+            document.querySelector("#showtimeTimeline").innerHTML = '<div class="text-center m-auto">Không có dữ liệu</div>';
+            return;
+        } 
         const showtimes = data.data;
 
         // Nhóm các showtime theo phim và giữ nguyên định dạng thời gian
@@ -793,7 +800,7 @@ async function loadShowtime() {
                 }
             }
         };
-        document.querySelector("#showtimeTimeline").innerHTML = '';
+       
         const chart = new ApexCharts(document.querySelector("#showtimeTimeline"), options);
         chart.render();
 

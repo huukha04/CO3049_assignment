@@ -135,7 +135,7 @@ async function loadMovie() {
             new Swiper('#displayShowing .swiper', {
                 loop: true
                 , breakpoints: {
-                    0: { // Dưới 514px
+                    0: { 
                         slidesPerView: 3
                     }
                     , 1024: { // >= 1024px

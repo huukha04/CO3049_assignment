@@ -198,10 +198,37 @@
 
                     <div class="col-12">
                         <div class="card shadow">
-                            <div class="card-body p-0">
-                                <div id="mediaTable" class="ag-theme-alpine" data-ag-theme-mode="dark" style="height: 600px; width: 100%;">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tiêu Đề</th>
+                                                <th style="width: 500px; word-wrap: break-word;">Mô Tả</th>
+                                                <th>Loại</th>
+                                                <th>Trạng Thái</th>
+                                                <th>Ngày Bắt Đầu</th>
+                                                <th>Ngày Kết Thúc</th>
+                                                <th>Thời Lượng (phút)</th>
+                                                <th>Thể Loại</th>
+                                                <th>Trailer</th>
+                                                <th>Ngôn Ngữ</th>
+                                                <th>Quốc Gia</th>
+                                                <th>Phân Loại</th>
+                                                <th>Ngày Tạo</th>
+                                                <th>Ngày Cập Nhật</th>
+                                                <th>Hành Động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dữ liệu sẽ được thêm động qua JavaScript -->
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
+                            
+                            
 
                         </div>
                     </div>
@@ -320,5 +347,9 @@
 <script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/components/dark.js" defer></script>
 <script src="http://localhost/CO3049_assignment/public/assets/pages/admin/media.js" defer></script>
 
-
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/jquery/jquery.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/pages/datatables.js"></script>
+              
 </html>
