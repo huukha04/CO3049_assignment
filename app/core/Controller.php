@@ -2,32 +2,35 @@
 
 trait Controller
 {
-    public function view($name, $data = [])
+    public function view($name)
     {
-        if (!empty($data)) {
-            extract($data);
-        }
+        header('Content-Type: text/html');
 
-        // Danh sách các đuôi mở rộng cần kiểm tra
         $extensions = ['php', 'html'];
-        
-        // Kiểm tra xem file nào tồn tại trước
         $filename = null;
+
         foreach ($extensions as $ext) {
-            $path = "../app/views/{$name}.{$ext}";
+            $path = __DIR__ . "/../views/{$name}.{$ext}";
             if (file_exists($path)) {
                 $filename = $path;
                 break;
             }
         }
 
-        // Nếu không tìm thấy file hợp lệ, dùng trang 404
         if (!isset($filename)) {
-            $filename = "../app/views/error/error_404.html";
+            $filename = __DIR__ . "/../views/status/error404.html";
         }
 
         require $filename;
     }
+    public function redirect($name)
+    {
+        header("Location: " . ROOT . $name);
+        exit;
+    }
+    public function back()
+    {
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
 }
-
-

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post</title>
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/assets/styles/global.css">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/extensions/simple-datatables/style.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/table-datatable.css">
+
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app.css">
+    <script src="https://cdn.jsdelivr.net/npm/just-validate@latest/dist/just-validate.production.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+    <style>
+        #table1 td,
+        #table1 th {
+            white-space: nowrap;
+            /* Không cho xuống dòng */
+            text-overflow: ellipsis;
+            /* Hiển thị "..." nếu tràn */
+            overflow: hidden;
+            /* Ẩn phần tràn */
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="header"></div>
+        <script type="module" src="http://localhost/CO3049_assignment/public/components/header.js"></script>
+        <main class="page-content container-lg flex-fill">
+            <section class="row">
+                <div class="col-12 col-md-4">
+                    <div class="card shadow">
+
+                        <div class="list-group" id="chosePage">
+                            <a href="http://localhost/CO3049_assignment/public/customer/profile?view=profilePage" class="list-group-item list-group-item-action">Thông tin cá nhân</a>
+                            <a href="http://localhost/CO3049_assignment/public/customer/profile?view=changePasswordPage" class="list-group-item list-group-item-action">Đổi mật khẩu</a>
+                            <a href="http://localhost/CO3049_assignment/public/customer/profile?view=orderPage" class="list-group-item list-group-item-action">Lịch sử mua hàng</a>
+                            <a href="http://localhost/CO3049_assignment/public/auth/logout?view=none" class="list-group-item list-group-item-action text-danger">Đăng xuất</a>
+
+                        </div>
+                    </div>
+                    <div class="card shadow">
+
+
+                        <div class="text-center card-header">
+                            <img src="http://localhost/CO3049_assignment/public/static/avatar.webp" id="avatarImage" class="rounded-circle border border-2 mb-2" alt="Avatar" width="100" style="cursor: pointer;">
+
+                            <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+
+                            <div id="avatarModal" class="modal" tabindex="-1" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); z-index: 9999;">
+                                <div style="background: white; margin: 10% auto; padding: 20px; width: 80%; max-width: 500px; position: relative;">
+                                    <div style="width: 100%; max-height: 60vh; overflow: hidden;">
+                                        <img id="cropImage" style="max-width: 100%;">
+                                    </div>
+                                    <div class="text-end mt-2">
+                                        <button onclick="cropImage()" class="btn btn-primary btn-sm">Cắt & Lưu</button>
+                                        <button onclick="closeModal()" class="btn btn-secondary btn-sm">Hủy</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div onclick="inputAvatar()" style="cursor: pointer; color: #0d6efd;">Thay đổi ảnh đại diện</div>
+                        </div>
+                        <div class="card-body">
+                            <div id="username"></div>
+                            <div id="randBar">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="fw-semibold" id="pointDisplay">Điểm: 0</span>
+                                    <span class="badge bg-secondary" id="rankDisplay">Hạng: Đồng</span>
+                                </div>
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar bg-success" id="rankProgress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-md-8">
+                    <div class="card shadow">
+                        <div id="profilePage">
+                            <form id="profileForm">
+                                <div class="card-header">
+                                    <h4 class="card-title">Thông tin cá nhân</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group mb-3">
+                                        <label for="name">Họ và tên</label>
+                                        <input type="text" name="name" class="form-control" placeholder="Họ và tên" required>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="username">username</label>
+                                        <input type="text" name="username" class="form-control" placeholder="Username" disabled>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email" class="form-control" placeholder="Email" disabled>
+                                        <a>Thay đổi</a>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="phone">Số điện thoại</label>
+                                        <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" required>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="address">Địa chỉ</label>
+                                        <input type="text" name="address" class="form-control" placeholder="Địa chỉ" required>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="id_card">Số CMND/CCCD</label>
+                                        <input type="text" name="id_card" class="form-control" placeholder="Số CMND/CCCD" required>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="form-group mb-3 text-center">
+                                <button onclick="updateInfo()" class="btn btn-primary">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                        <div id="changePasswordPage">
+                            <form id="changePasswordForm">
+                                <div class="card-header">
+                                    <h4 class="card-title">Đổi mật khẩu</h4>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="form-group mb-3">
+                                        <label for="oldPassword">Mật khẩu cũ</label>
+                                        <input type="password" id="oldPassword" name="oldPassword" class="form-control" placeholder="Mật khẩu cũ">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="newPassword">Mật khẩu mới</label>
+                                        <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="Mật khẩu mới">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="confirmPassword">Xác nhận mật khẩu mới</label>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Xác nhận mật khẩu mới">
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="alert" id="message" style="display: none;"></div>
+                                        <button class="btn btn-primary" type="submit">Lưu</button>
+                                    </div>
+
+
+
+                                </div>
+                            </form>
+
+
+                        </div>
+                        <div id="orderPage">
+                            <div id="orderDisplay">
+                                <div class="card-header">
+                                    <h4 class="card-title">Lịch sử mua hàng</h4>
+                                </div>
+                                <div class="card-body">
+
+
+                                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                        <table class="table table-striped" id="table1">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mã đơn hàng</th>
+                                                    <th>Tổng tiền</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Ngày tạo</th>
+                                                    <th>Xem hóa đơn</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <div id="footer"></div>
+            <script type="module" src="http://localhost/CO3049_assignment/public/components/footer.js"></script>
+
+
+        </main>
+
+
+
+    </div>
+
+
+
+    <div id="toggleDark"></div>
+    <script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
+
+</body>
+
+<script>
+    let cropper;
+let currentAvatarUrl = 'http://localhost/CO3049_assignment/public/static/avatar.webp';
+
+// Open file dialog when clicking change avatar
+function inputAvatar() {
+    document.getElementById('avatarInput').click();
+}
+
+// Handle file selection
+document.getElementById('avatarInput').addEventListener('change', function(e) {
+    if (e.target.files.length === 0) return;
+
+    const file = e.target.files[0];
+    if (!file.type.match('image.*')) {
+        alert('Vui lòng chọn file ảnh');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        // Show modal with image
+        const modal = document.getElementById('avatarModal');
+        const cropImg = document.getElementById('cropImage');
+
+        cropImg.src = event.target.result;
+        modal.style.display = 'block';
+
+        // Initialize cropper
+        if (cropper) {
+            cropper.destroy();
+        }
+
+        cropper = new Cropper(cropImg, {
+            aspectRatio: 1
+            , viewMode: 1
+            , autoCropArea: 0.8
+            , responsive: true
+            , guides: false
+        });
+    };
+    reader.readAsDataURL(file);
+});
+
+// Crop and save the image
+async function cropImage() {
+    if (!cropper) return;
+
+    // Tạo canvas từ cropper
+    const canvas = cropper.getCroppedCanvas({
+        width: 300
+        , height: 300
+        , minWidth: 100
+        , minHeight: 100
+        , maxWidth: 800
+        , maxHeight: 800
+        , fillColor: '#fff'
+        , imageSmoothingEnabled: true
+        , imageSmoothingQuality: 'high'
+    , });
+
+    if (canvas) {
+        canvas.toBlob(async function(blob) {
+            const formData = new FormData();
+            formData.append('file', blob, 'avatar.webp');
+
+            try {
+                const res = await fetch('http://localhost/CO3049_assignment/public/customer/uploadAvatar', {
+                    method: 'POST'
+                    , body: formData
+                });
+
+                const data = await res.json();
+
+                if (data.success) {}
+
+            } catch (error) {
+                console.error('Lỗi khi gửi ảnh:', error);
+                alert('Đã xảy ra lỗi!');
+            } finally {
+                closeModal();
+            }
+        }, 'image/webp', 0.9);
+    }
+}
+
+
+// Close the modal
+function closeModal() {
+    document.getElementById('avatarModal').style.display = 'none';
+
+    // Xóa cropper nếu tồn tại
+    if (cropper) {
+        cropper.destroy();
+        cropper = null;
+    }
+
+    document.getElementById('avatarInput').value = '';
+}
+
+
+document.getElementById('avatarModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeModal();
+    }
+});
+
+document.getElementById('avatarImage').addEventListener('click', inputAvatar);
+
+
+const validation = new JustValidate('#changePasswordForm');
+
+validation
+    .addField('#oldPassword', [{
+            rule: 'required'
+            , errorMessage: 'Vui lòng nhập mật khẩu cũ'
+        }
+        , {
+            rule: 'minLength'
+            , value: 6
+            , errorMessage: 'Mật khẩu tối thiểu 6 ký tự'
+        }
+    , ])
+    .addField('#newPassword', [{
+            rule: 'required'
+            , errorMessage: 'Vui lòng nhập mật khẩu mới'
+        }
+        , {
+            rule: 'minLength'
+            , value: 6
+            , errorMessage: 'Mật khẩu tối thiểu 6 ký tự'
+        }
+        , {
+            validator: (value, fields) => {
+                return value !== fields['#oldPassword'].elem.value;
+            }
+            , errorMessage: 'Mật khẩu mới không được trùng với mật khẩu cũ'
+        , }
+    , ])
+
+    .addField('#confirmPassword', [{
+            rule: 'required'
+            , errorMessage: 'Vui lòng xác nhận mật khẩu'
+        }
+        , {
+            validator: (value, fields) => {
+                return value === fields['#newPassword'].elem.value;
+            }
+            , errorMessage: 'Mật khẩu xác nhận không khớp'
+        , }
+    , ])
+    .onSuccess(async (event) => {
+        event.preventDefault(); // Ngăn reload mặc định
+
+        await changePassword(); // Gọi khi form hợp lệ
+    });
+
+async function changePassword() {
+    const formData = new FormData(document.getElementById('changePasswordForm'));
+
+    try {
+        const response = await fetch('http://localhost/CO3049_assignment/public/customer/changePassword', {
+            method: 'POST'
+            , body: formData
+        , });
+
+        const data = await response.json();
+
+        const messageDiv = document.getElementById('message');
+        messageDiv.style.display = 'block';
+        messageDiv.className = 'alert ' + (data.status ? 'alert-success' : 'alert-danger');
+
+        if (data.status) {
+            document.getElementById('changePasswordForm').reset();
+            messageDiv.innerText = data.message || 'Thành công';
+        } else {
+            messageDiv.innerText = data.message || 'Thất bại';
+
+        }
+
+    } catch (error) {
+        console.error('Có lỗi xảy ra:', error);
+        messageDiv.style.display = 'block';
+        messageDiv.className = 'alert alert-danger';
+        messageDiv.innerText = 'Đã có lỗi xảy ra khi gửi yêu cầu.';
+    }
+}
+
+
+
+
+loadOrder();
+
+async function loadOrder() {
+    try {
+        const response = await fetch("http://localhost/CO3049_assignment/public/customer/getOrder");
+        const result = await response.json();
+
+        if (result.status && Array.isArray(result.data)) {
+            const tbody = document.querySelector("#table1 tbody");
+            tbody.innerHTML = ""; // clear cũ nếu có
+
+            result.data.forEach((order) => {
+                const actionBtn = order.status === "completed" ?
+                    `<td class="text-center">
+               <button class="btn btn-sm btn-primary" onclick="showOrder(${order.order_code})">Xem hóa đơn</button>
+             </td>` :
+                    `<td></td>`;
+
+                const statusClass = {
+                    pending: "text-warning fw-bold"
+                    , failed: "text-danger fw-bold"
+                    , completed: "text-success fw-bold"
+                , } [order.status] || "";
+
+                const row = `
+            <tr>
+              <td>${order.order_code}</td>
+              <td>${parseFloat(order.total_price).toLocaleString("vi-VN")} đ</td>
+              <td class="${statusClass}">${order.status}</td>
+              <td>${order.created_at.split(" ")[0]}</td>
+              ${actionBtn}
+            </tr>
+          `;
+
+                tbody.insertAdjacentHTML("beforeend", row);
+            });
+
+        }
+    } catch (err) {
+        console.error("Lỗi khi load đơn hàng:", err);
+    }
+}
+
+
+
+window.onload = function() {
+    const params = new URLSearchParams(window.location.search);
+    const view = params.get('view');
+
+    // Ẩn tất cả các form
+    document.getElementById('profilePage').style.display = 'none';
+    document.getElementById('changePasswordPage').style.display = 'none';
+    document.getElementById('orderPage').style.display = 'none';
+
+    // Hiện form tương ứng
+    loadInfo();
+    if (view === 'orderPage') {
+        document.getElementById('orderPage').style.display = 'block';
+    } else if (view === 'changePasswordPage') {
+        document.getElementById('changePasswordPage').style.display = 'block';
+    } else {
+        document.getElementById('profilePage').style.display = 'block';
+        loadInfo();
+    }
+
+    // Xử lý active menu
+    const links = document.querySelectorAll('#chosePage a');
+    links.forEach(link => {
+        link.classList.remove('active');
+
+        const url = new URL(link.href);
+        const linkView = url.searchParams.get('view');
+
+        if (view === linkView || (view === null && linkView === 'profilePage')) {
+            link.classList.add('active');
+        }
+    });
+};
+
+function getRankInfo(point) {
+    if (point < 500) return {
+        name: "Đồng"
+        , color: "secondary"
+        , min: 0
+        , max: 500
+    };
+    if (point < 1000) return {
+        name: "Bạc"
+        , color: "info"
+        , min: 500
+        , max: 1000
+    };
+    if (point < 2000) return {
+        name: "Vàng"
+        , color: "warning"
+        , min: 1000
+        , max: 2000
+    };
+    return {
+        name: "VIP"
+        , color: "danger"
+        , min: 2000
+        , max: 3000
+    }; // Giả định max để hiển thị % dễ
+}
+async function loadInfo() {
+    const response = await fetch('http://localhost/CO3049_assignment/public/customer/getInfo');
+    const data = await response.json();
+    if (data.status) {
+        const info = data.data;
+        console.log(data.data);
+        document.querySelector('#profilePage input[name="name"]').value = info.name;
+        document.querySelector('#profilePage input[name="username"]').value = info.username;
+        document.querySelector('#profilePage input[name="email"]').value = info.email;
+        document.querySelector('#profilePage input[name="phone"]').value = info.phone;
+        document.querySelector('#profilePage input[name="address"]').value = info.address;
+        document.querySelector('#profilePage input[name="id_card"]').value = info.id_card;
+
+        // --- Cập nhật điểm & hạng ---
+        const point = parseInt(info.point);
+        const rank = getRankInfo(point);
+
+        const percent = Math.min(100, ((point - rank.min) / (rank.max - rank.min)) * 100);
+
+        document.getElementById("pointDisplay").textContent = `Điểm: ${point}`;
+        const rankDisplay = document.getElementById("rankDisplay");
+        rankDisplay.textContent = `Hạng: ${rank.name}`;
+        rankDisplay.className = `badge bg-${rank.color}`;
+
+        const progressBar = document.getElementById("rankProgress");
+        progressBar.style.width = `${percent}%`;
+        progressBar.setAttribute("aria-valuenow", percent);
+
+        const avatarImage = document.getElementById("avatarImage");
+        if (info.avatar && info.avatar.trim() !== "") {
+            avatarImage.src = info.avatar;
+        }
+    } else {
+        alert(data.message);
+    }
+}
+
+async function updateInfo() {
+    const form = document.getElementById('profileForm');
+    const formData = new FormData(form);
+    const response = await fetch('http://localhost/CO3049_assignment/public/customer/updateInfo', {
+        method: 'POST'
+        , body: formData
+    });
+    const data = await response.json();
+    if (data.status) {
+        alert(data.message);
+        loadInfo();
+    } else {
+        alert(data.message);
+    }
+}
+</script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/compiled/js/app.js" defer></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/components/dark.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/pages/simple-datatables.js"></script>
+<script src="http://localhost/CO3049_assignment/public/assets/pages/customer/profile.js" defer></script>
+
+</html>

@@ -26,7 +26,9 @@ trait Database {
             // Nếu là SELECT, SHOW, DESCRIBE, EXPLAIN thì fetch kết quả
             if (in_array($queryType, ['SELECT', 'SHOW', 'DESCRIBE', 'EXPLAIN'])) {
                 $result = $stm->fetchAll(PDO::FETCH_OBJ);
-                return (is_array($result) && count($result)) ? $result : false;
+                if (is_array($result) && count($result)) {
+                    return $result;
+                }
             }
 
             // Nếu là UPDATE, DELETE, INSERT thì trả về số dòng bị ảnh hưởng
