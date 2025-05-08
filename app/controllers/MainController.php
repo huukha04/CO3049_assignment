@@ -61,17 +61,15 @@ class MainController {
         exit;
     }
 
+
+
+
+
+
     public function getSeat() {
         if($_SERVER['REQUEST_METHOD'] == 'GET') {
             unset($_GET['url']);
-            if(isset($_GET['showtime_id'])) {
-                $showtimeModel = new ShowtimeModel();
-                $seat = $showtimeModel->getSeatByShowtime($_GET);
-                if($seat != false) {
-                    echo json_encode(['status' => true, 'data' => $seat]);
-                    exit;
-                }
-            }
+            
 
 
 
@@ -144,62 +142,9 @@ class MainController {
         exit;
     }
 
-    public function getBookingInfo() {
-        if($_SERVER['REQUEST_METHOD'] == 'GET') {
-            unset($_GET['url']);
-            $orderDetailModel = new OrderDetailModel();
-            $result = $orderDetailModel->getBookingInfo($_GET);
-            if($result != false) {
-                echo json_encode(['status' => true, 'data' => $result]);
-                exit;
-            }
-        }
-        echo json_encode(['status' => false, 'message' => 'Invalid request']);
-        exit;
-    }
-    public function getProductByShowtime() {
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            unset($_GET['url']);
-            
-            $showtimeModel = new ShowtimeModel();
-            $showtimes = $showtimeModel->where($_GET);
+
     
-            if (!empty($showtimes) && isset($showtimes[0]->cinema_id)) {
-                $cinemaId = $showtimes[0]->cinema_id;
-    
-                $productModel = new ProductModel();
-                $result = $productModel->where(['cinema_id' => $cinemaId]);
-    
-                echo json_encode([
-                    'status' => true,
-                    'data' => $result
-                ]);
-                exit;
-            } else {
-                echo json_encode([
-                    'status' => false,
-                    'message' => 'No showtime found with given parameters'
-                ]);
-                exit;
-            }
-        }
-    
-        echo json_encode(['status' => false, 'message' => 'Invalid request']);
-        exit;
-    }
-    
-    public function confirmPayment() {
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $payment = new PaymentModel();
-            $result = $payment->confirmPayment($_POST);
-            if($result != false) {
-                echo json_encode(['status' => true, 'data' => $result]);
-                exit;
-            }
-        }
-        echo json_encode(['status' => false, 'message' => 'Invalid request']);
-        exit;
-    }
+
     public function cancelPayment() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $payment = new PaymentModel();
@@ -229,18 +174,130 @@ class MainController {
 
 
 
-    public function test() {
-        (new ContactModel())->comfirmContact([
-            'email' => 'kha.huynhhuu04@gmail.com',
-            'name' => 'Huynh Huu Kha',
-            'subject' => 'Test',
-            'message' => 'Test'
-        ]);
+
+    
+    
+
+
+    // Cinema 
+    public function getShowtimeByCinemaId() {
+        if($_SERVER['REQUEST_METHOD'] == 'GET') {
+            unset($_GET['url']);
+            $showtimeModel = new ShowtimeModel();
+            $result = $showtimeModel->getShowtimeByCinemaId($_GET);
+            if($result != false) {
+                echo json_encode(['status' => true, 'data' => $result]);
+                exit;
+            }
+        }
+        echo json_encode(['status' => false, 'message' => 'Invalid request']);
+        exit;
     }
+
+
+    public function getSeatByShowtimeId() {
+        if($_SERVER['REQUEST_METHOD'] == 'GET') {
+            unset($_GET['url']);
+            $showtimeModel = new ShowtimeModel();
+            $result = $showtimeModel->getSeatByShowtimeId($_GET);
+            if($result != false) {
+                echo json_encode(['status' => true, 'data' => $result]);
+                exit;
+            }
+        }
+        echo json_encode(['status' => false, 'message' => 'Invalid request']);
+        exit;
+    }
+
+    // Booking
+    public function getProductByShowtimeId() {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            unset($_GET['url']);
+            
+            $showtimeModel = new ShowtimeModel();
+            $result = $showtimeModel->getProductByShowtimeId($_GET);
+            if($result != false) {
+                echo json_encode(['status' => true, 'data' => $result]);
+                exit;
+            }
+        }
     
+        echo json_encode(['status' => false, 'message' => 'Invalid request']);
+        exit;
+    }
+
+    public function insertProductInOrderDetail() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            $orderDetail = new OrderDetailModel();
+            $result = $orderDetail->insertProductInOrderDetail($_POST);
+            if($result != false) {
+                echo json_encode(['status' => true, 'data' => $result]);
+                exit;
+            }
+        }
     
+        echo json_encode(['status' => false, 'message' => 'Invalid request']);
+        exit;
+    }
+
+    public function deleteProductInOrderDetail() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            $orderDetail = new OrderDetailModel();
+            $result = $orderDetail->deleteProductInOrderDetail($_POST);
+            if($result != false) {
+                echo json_encode(['status' => true, 'data' => $result]);
+                exit;
+            }
+        }
+    
+        echo json_encode(['status' => false, 'message' => 'Invalid request']);
+        exit;
+    }
+
+    public function getBookingInfo() {
+        if($_SERVER['REQUEST_METHOD'] == 'GET') {
+            
+            unset($_GET['url']);
+            $orderDetailModel = new OrderDetailModel();
+            $result = $orderDetailModel->getBookingInfo($_GET);
+            if($result != false) {
+                echo json_encode(['status' => true, 'data' => $result]);
+                exit;
+            }
+        }
+        echo json_encode(['status' => false, 'message' => 'Invalid request']);
+        exit;
+    }
+
+    public function confirmPayment() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $payment = new PaymentModel();
+            $result = $payment->confirmPayment($_POST);
+            if($result != false) {
+                echo json_encode(['status' => true, 'data' => $result]);
+                exit;
+            }
+        }
+        echo json_encode(['status' => false, 'message' => 'Invalid request']);
+        exit;
+    }
 
 
 
 
+
+
+
+
+    public function test() {
+        header('Content-Type: application/json');
+
+        echo json_encode(
+            (new ShowtimeModel())->getShowtimeForAdmin(['room_id' => 1, 'date' => '2025-05-08'])
+        );
+    }
 }
+
+

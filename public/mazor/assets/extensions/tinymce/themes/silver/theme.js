@@ -28896,11 +28896,7 @@
           leadingWhitespace = matches && matches[0];
         }
         if (PARSER_MEDIA_TYPE === 'application/xhtml+xml') {
-          dirty = '<html xmlns="http://www.w3.org/1999/xhtml"><head>    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
-</head><body>' + dirty + '<div id="toggleDark"></div>
-<script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
-
-</body></html>';
+          dirty = '<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>' + dirty + '</body></html>';
         }
         var dirtyPayload = trustedTypesPolicy ? trustedTypesPolicy.createHTML(dirty) : dirty;
         if (NAMESPACE === HTML_NAMESPACE) {

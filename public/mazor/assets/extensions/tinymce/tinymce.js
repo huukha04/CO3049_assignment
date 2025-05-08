@@ -16146,11 +16146,7 @@
           leadingWhitespace = matches && matches[0];
         }
         if (PARSER_MEDIA_TYPE === 'application/xhtml+xml') {
-          dirty = '<html xmlns="http://www.w3.org/1999/xhtml"><head>    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
-</head><body>' + dirty + '<div id="toggleDark"></div>
-<script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
-
-</body></html>';
+          dirty = '<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>' + dirty + '</body></html>';
         }
         var dirtyPayload = trustedTypesPolicy ? trustedTypesPolicy.createHTML(dirty) : dirty;
         if (NAMESPACE === HTML_NAMESPACE) {
@@ -17115,14 +17111,7 @@
         const mimeType = format === 'xhtml' ? 'application/xhtml+xml' : 'text/html';
         const isSpecialRoot = has$2(schema.getSpecialElements(), rootName.toLowerCase());
         const content = isSpecialRoot ? `<${ rootName }>${ html }</${ rootName }>` : html;
-        const wrappedHtml = format === 'xhtml' ? `<html xmlns="http://www.w3.org/1999/xhtml"><head>    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
-</head><body>${ content }<div id="toggleDark"></div>
-<script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
-
-</body></html>` : `<body>${ content }<div id="toggleDark"></div>
-<script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
-
-</body>`;
+        const wrappedHtml = format === 'xhtml' ? `<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>${ content }</body></html>` : `<body>${ content }</body>`;
         const body = parser.parseFromString(wrappedHtml, mimeType).body;
         sanitize(body, mimeType);
         return isSpecialRoot ? body.firstChild : body;
@@ -28552,11 +28541,7 @@
       if (getContentSecurityPolicy(editor)) {
         iframeHTML += '<meta http-equiv="Content-Security-Policy" content="' + getContentSecurityPolicy(editor) + '" />';
       }
-      iframeHTML += '    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
-</head>' + `<body id="${ bodyId }" class="mce-content-body ${ bodyClass }" data-id="${ editor.id }" aria-label="${ translatedAriaText }">` + '<br>' + '<div id="toggleDark"></div>
-<script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
-
-</body></html>';
+      iframeHTML += '</head>' + `<body id="${ bodyId }" class="mce-content-body ${ bodyClass }" data-id="${ editor.id }" aria-label="${ translatedAriaText }">` + '<br>' + '</body></html>';
       return iframeHTML;
     };
     const createIframe = (editor, boxInfo) => {

@@ -1,8 +1,7 @@
 <?php
 use PayOS\PayOS;
 
-class PaymentModel
-{
+class PaymentModel {
 
     use Model;
     private $payOS;
@@ -81,8 +80,8 @@ class PaymentModel
                 "name" => $name,
                 "expiredAt" => time() + 600, // timestamp tương lai
         
-                "returnUrl" => "http://localhost/PHP_MVC/public/status/success",
-                "cancelUrl" => "http://localhost/PHP_MVC/public/status/cancel",
+                "returnUrl" => "http://localhost/CO3049_assignment/public/status/success",
+                "cancelUrl" => "http://localhost/CO3049_assignment/public/status/cancel",
             ]);
 
             return $payos;

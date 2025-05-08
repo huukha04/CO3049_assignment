@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function() {
     try {
         // Fetch dữ liệu từ API
-        const response = await fetch('http://localhost/PHP_MVC/public/revenue/revenueFor14Days');
+        const response = await fetch('http://localhost/CO3049_assignment/public/revenue/revenueFor14Days');
         const data = await response.json();
 
         // Xử lý dữ liệu để phù hợp với định dạng ApexCharts
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 });
 
 document.addEventListener("DOMContentLoaded", async function() {
-    const response = await fetch('http://localhost/PHP_MVC/public/revenue/revenueMovieHot');
+    const response = await fetch('http://localhost/CO3049_assignment/public/revenue/revenueMovieHot');
     const data = await response.json();
 
     const movieData = data.data;

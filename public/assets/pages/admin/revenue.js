@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function() {
-    const response = await fetch('http://localhost/PHP_MVC/public/revenue/revenueMovieHot');
+    const response = await fetch('http://localhost/CO3049_assignment/public/revenue/revenueMovieHot');
     const data = await response.json();
 
     const movieData = data.data;
@@ -116,7 +116,7 @@ async function loadchartCoverage() {
     const dataForm = new FormData(document.getElementById('coverageForm'));
 
     try {
-        const response = await fetch('http://localhost/PHP_MVC/public/revenue/revenueChartCoverage', {
+        const response = await fetch('http://localhost/CO3049_assignment/public/revenue/revenueChartCoverage', {
             method: 'POST',
             body: dataForm,
         });

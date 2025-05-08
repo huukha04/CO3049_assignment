@@ -114,7 +114,7 @@ const mediaOptions = {
 
 function fetchAndRenderTable() {
     const type = document.querySelector('input[name="typeGet"]:checked').value;
-    fetch(`http://localhost/PHP_MVC/public/admin/getMedia?type=${type}`)
+    fetch(`http://localhost/CO3049_assignment/public/admin/getMedia?type=${type}`)
         .then(response => response.json())
         .then(data => {
             mediaApi.setGridOption("rowData", []);
@@ -281,7 +281,7 @@ async function insertMedia() {
         const dataForm = new FormData(form);
         dataForm.append('file', document.getElementById('file').files[0]);
 
-        const response = await fetch('http://localhost/PHP_MVC/public/admin/insertMedia', {
+        const response = await fetch('http://localhost/CO3049_assignment/public/admin/insertMedia', {
             method: 'POST',
             body: dataForm,
         });
@@ -308,7 +308,7 @@ async function deleteMedia(id) {
         if (!confirm("Bạn có chắc chắn muốn xóa không?")) return;
         dataForm = new FormData();
         dataForm.append('id', id);
-        const response = await fetch(`http://localhost/PHP_MVC/public/admin/deleteMedia`, {
+        const response = await fetch(`http://localhost/CO3049_assignment/public/admin/deleteMedia`, {
             method: 'POST',
             body: dataForm
         });
@@ -327,7 +327,7 @@ async function viewMedia(id) {
     try {
         document.getElementById('mediaDetails').innerHTML = '';
         document.getElementById('mediaDetails').innerHTML = `
-            <div class="text-center"><img src="http://localhost/PHP_MVC/public/main/displayMedia?id=${id}" alt="Media Image" class="img-fluid"></div>
+            <div class="text-center"><img src="http://localhost/CO3049_assignment/public/main/displayMedia?id=${id}" alt="Media Image" class="img-fluid"></div>
         `;
         const mediaModal = new bootstrap.Modal(document.getElementById('mediaModal'));
         mediaModal.show();
@@ -340,7 +340,7 @@ async function viewMedia(id) {
 
 async function editMedia(id) {
     try {
-        const response = await fetch(`http://localhost/PHP_MVC/public/admin/getMedia?id=${id}`);
+        const response = await fetch(`http://localhost/CO3049_assignment/public/admin/getMedia?id=${id}`);
         const result = await response.json();
         if (!result.status) {
             console.error("Lỗi khi lấy dữ liệu:", result.message);
@@ -348,7 +348,7 @@ async function editMedia(id) {
         }
         const movie = result.data[0];
         document.querySelector('#updateModal #img').innerHTML = `
-            <img src="http://localhost/PHP_MVC/public/main/displayMedia?id=${id}" alt="Media Image" style="height: 200px;">
+            <img src="http://localhost/CO3049_assignment/public/main/displayMedia?id=${id}" alt="Media Image" style="height: 200px;">
         `;
 
 
@@ -384,7 +384,7 @@ async function updateMedia() {
     try {
         const dataForm = new FormData(document.getElementById('updateForm'));
 
-        const response = await fetch(`http://localhost/PHP_MVC/public/admin/updateMedia`, {
+        const response = await fetch(`http://localhost/CO3049_assignment/public/admin/updateMedia`, {
             method: 'POST',
             body: dataForm
         });
@@ -406,5 +406,5 @@ async function updateMedia() {
 
 function getMediaCSV() {
     const type = document.querySelector('input[name="typeGet"]:checked').value;
-    window.location.href = `http://localhost/PHP_MVC/public/admin/getMediaCSV?type=${type}`;
+    window.location.href = `http://localhost/CO3049_assignment/public/admin/getMediaCSV?type=${type}`;
 }

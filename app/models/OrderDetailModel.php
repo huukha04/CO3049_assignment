@@ -16,8 +16,27 @@ class OrderDetailModel
         ];
         $this->table = 'orderdetail';
         $this->message = '';
+        $this->deletePendingOrders();
 
         
+    }
+
+    public function deletePendingOrders() {
+        try {
+            $query = "DELETE FROM orderdetail " .
+                 "WHERE status = 'pending' " .
+                 "AND DATE_ADD(time, INTERVAL 5 MINUTE) < NOW() " .
+                 "AND order_code NOT IN (SELECT order_code FROM `order`)"; // Kiểm tra nếu order_code không tồn tại trong bảng order
+    
+            $params = [];  // Không cần tham số nếu không có điều kiện khác
+    
+            $this->PDOquery($query, $params);
+            
+            return true;  // Trả về true khi xóa thành công
+        } catch (Exception $e) {
+            $this->message = 'Error: ' . $e->getMessage();
+            return false;
+        }
     }
 
     public function insertOrderDetail($data) {
@@ -54,75 +73,6 @@ class OrderDetailModel
             } else {
                 return false;
             }
-        } catch (Exception $e) {
-            $this->message = 'Error: ' . $e->getMessage();
-            return false;
-        }
-    }
-
-    public function getBookingInfo($data) {
-        try {
-            // Cập nhật thời gian cho tất cả các bản ghi có order_code tương ứng
-
-            $returnData = [];
-            $order_code = $data['order_code'];
-            $showtime_id = $data['showtime_id'];
-
-            $updateQuery = "UPDATE orderDetail SET time = CURRENT_TIMESTAMP WHERE order_code = :order_code";
-            $this->PDOquery($updateQuery, ['order_code' => $order_code]);
-
-            $showtime = (new ShowtimeModel())->where(['id' => $showtime_id]);
-            if($showtime != false) {
-                $showtime = $showtime[0];
-                $movie = (new MediaModel())->where(['id' => $showtime->media_id]);
-                if($movie != false) {
-                    $movie = $movie[0];
-                    $returnData['movie_name'] = $movie->title;
-                }
-
-                $cinema = (new CinemaModel())->where(['id' => $showtime->cinema_id]);
-                if($cinema != false) {
-                    $cinema = $cinema[0];
-                    $returnData['cinema_name'] = $cinema->name;
-                }
-
-                $room = (new RoomModel())->where(['id' => $showtime->room_id]);
-                if($room != false) {
-                    $room = $room[0];
-                    $returnData['room_name'] = $room->name;
-                }
-
-                $returnData['showtime'] = $showtime->start_time;
-            }
-
-            $orderDetail = $this->where(['order_code' => $order_code, 'showtime_id' => $showtime_id]);
-            if($orderDetail != false) {
-                $returnData['total_price'] = 0;
-                $returnData['product_list'] = '';      // Khởi tạo chuỗi rỗng
-                $returnData['seat_list'] = '';     // Khởi tạo chuỗi rỗng
-
-
-                foreach($orderDetail as $item) {
-                    if($item->product_id != null) {
-                        $product = (new ProductModel())->where(['id' => $item->product_id]);
-                        if($product != false) {
-                            $product = $product[0];
-                            $returnData['product_list'] .= $product->name . 'x' . $item->quantity . ' ';
-                            $returnData['total_price'] += $product->price * $item->quantity;
-                        }
-                    } else {
-                        $seat = (new SeatModel())->where(['id' => $item->seat_id]);
-                        if($seat != false) {
-                            $seat = $seat[0];
-                            $returnData['total_price'] += $seat->price;
-                            $returnData['seat_list'] .= $seat->code . ' ';
-                        }
-                    }
-                }
-            }
-
-            return $returnData;
-            
         } catch (Exception $e) {
             $this->message = 'Error: ' . $e->getMessage();
             return false;
@@ -194,7 +144,145 @@ class OrderDetailModel
     }
     
     
+
+    // Booking
+
+    public function insertProductInOrderDetail($data) {
+        $orderCode = $data['order_code'];
+        $productId = $data['product_id'];
+        $showtimeId = $data["showtime_id"];
+
+
+        $order = $this->where([
+                'order_code' => $orderCode,
+                'product_id' => $productId,
+                'showtime_id' => $showtimeId,
+            ]);
+        if($order == false) {
+            $this->insert([
+                'order_code' => $orderCode,
+                'product_id' => $productId,
+                'showtime_id' => $showtimeId,
+                'quantity' => 1
+            ]);
+        } else {
+            $this->update( 
+                $order[0]->id,
+                [
+                    'quantity' => $order[0]->quantity + 1,
+                    'order_code' => $orderCode,
+                    'showtime_id' => $showtimeId,
+                    'product_id' => $productId
+                ]
+            );
+        }
+        return true;
+
+
+    }
+
+    public function deleteProductInOrderDetail($data) {
+        $orderCode = $data['order_code'];
+        $productId = $data['product_id'];
+        $showtimeId = $data["showtime_id"];
+
+        $order = $this->where([
+                'order_code' => $orderCode,
+                'product_id' => $productId,
+                'showtime_id' => $showtimeId,
+            ]);
+        if($order == false) {
+            return true;
+        } else {
+            if ($order[0]->quantity <= 1) {
+                $this->delete($order[0]->id);
+                return true;
+            }
+            
+            $this->update( 
+                $order[0]->id,
+                [
+                    'quantity' => $order[0]->quantity - 1,
+                    'order_code' => $orderCode,
+                    'product_id' => $productId,
+                    'showtime_id' => $showtimeId,
+                ]
+            );
+        }
+
+
+        
+
+    }
+
+    public function getBookingInfo($data) {
+        try {
+            $showtime_id = $data['showtime_id'];
+            $order_code = $data['order_code'];
+        
+            // Lấy thông tin showtime
+            $query = 
+                "SELECT m.title AS movie_name, c.name AS cinema_name, r.name AS room_name, st.start_time AS showtime " .
+                "FROM showtime st " .
+                "INNER JOIN media m ON st.media_id = m.id " .
+                "INNER JOIN room r ON st.room_id = r.id " .
+                "INNER JOIN cinema c ON r.cinema_id = c.id " .
+                "WHERE st.id = :showtime_id";
+            $params = ['showtime_id' => $showtime_id];
+        
+            $return = $this->PDOquery($query, $params);
+        
+            // Lấy danh sách ghế
+            $query = 
+                "SELECT s.code " . 
+                "FROM orderdetail o " .
+                "INNER JOIN seat s ON o.seat_id = s.id " .
+                "WHERE o.order_code = :order_code AND o.showtime_id = :showtime_id";
+            $params = [
+                'order_code' => $order_code,
+                'showtime_id' => $showtime_id,
+            ];
+            $return[0]->seat_list = $this->PDOquery($query, $params);
+
+            // Lấy danh sách sản phẩm
+            $query = 
+                "SELECT p.name, o.quantity " . 
+                "FROM orderdetail o " .
+                "INNER JOIN product p ON o.product_id = p.id " .
+                "WHERE o.order_code = :order_code AND o.showtime_id = :showtime_id";
+            $params = [
+                'order_code' => $order_code,
+                'showtime_id' => $showtime_id,
+            ];
+            $return[0]->product_list = $this->PDOquery($query, $params);
+        
+            // Lấy tổng giá tiền
+            $query = 
+            "SELECT SUM(s.price) AS total " . 
+            "FROM orderdetail o " . 
+            "INNER JOIN seat s ON o.seat_id = s.id " . 
+            "WHERE o.order_code = :order_code AND o.showtime_id = :showtime_id";
+            $total = $this->PDOquery($query, $params)[0]->total;
+
+            $query = 
+            "SELECT SUM(p.price * o.quantity) AS total " . 
+            "FROM orderdetail o " . 
+            "INNER JOIN product p ON o.product_id = p.id " . 
+            "WHERE o.order_code = :order_code AND o.showtime_id = :showtime_id ";
+            
+        
+            // Lấy tổng giá tiền và gán vào $return[0]->total_price
+            $return[0]->total_price = $total + $this->PDOquery($query, $params)[0]->total;
+        
+            return $return;
     
+        } catch (Exception $e) {
+            $this->message = 'Error: ' . $e->getMessage();
+            return false;
+        }
+    }
+
+
     
     
     

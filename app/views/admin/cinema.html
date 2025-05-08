@@ -23,6 +23,8 @@
             /* Ẩn phần tràn */
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
 
@@ -155,8 +157,13 @@
                             <div class="col-12">
                                 <div class="card shadow">
                                     <div class="card-body p-0">
-                                        <div id="showtimeGrid" class="ag-theme-alpine" data-ag-theme-mode="dark" style="height: 600px; width: 100%;">
-                                        </div>
+                                        <!-- <div id="showtimeGrid" class="ag-theme-alpine" data-ag-theme-mode="dark" style="height: 600px; width: 100%;">
+                                        </div> -->
+
+                                        <div id="showtimeTimeline" class="w-full h-96"></div>
+                                        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -275,9 +282,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="seatInsertForm">
+                        <form id="seatForm" class="row">
                             <div class="mb-3">
-                                <label for="seatType" class="form-label">Loại ghế</label>
+                                <label for="seatType" class="form-label">Loại ghế <i class="bi bi-chair"></i></label>
                                 <select class="form-select" name="type" required>
                                     <option value="standard" selected>Standard</option>
                                     <option value="vip">VIP</option>
@@ -286,21 +293,31 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="seatCode" class="form-label">Mã ghế</label>
-                                <input type="text" class="form-control" name="code">
+                                <label for="seatCode" class="form-label">Mã ghế </label>
+                                <input type="text" class="form-control" name="code" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="seatCode" class="form-label">Giá</label>
-                                <input type="number" class="form-control" name="price">
+                                <label for="seatCode" class="form-label">Giá </label>
+                                <input type="number" class="form-control" name="price" value='1000' placeholder="Nhập giá ghế">
                             </div>
-                            <input type="number" class="form-control" name="col">
-                            <input type="number" class="form-control" name="row">
-                            <input type="number" class="form-control" name="room_id">
+                            <div class="mb-3 col-6">
+                                <label for="seatCode" class="form-label">Cột </label>
+                                <input type="number" class="form-control" name="col" readonly>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="seatCode" class="form-label">Hàng</label>
+                                <input type="number" class="form-control" name="row" readonly>
+                            </div>
+                            <input name="room_id" hidden>
+                            <input name="id" hidden>
+
                         </form>
+                        
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="button" onclick="insertSeat()" class="btn btn-primary">Lưu thay đổi</button>
+                        <button type="button" onclick="resetForm('seatForm')" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" onclick="deleteSeat()" class="btn btn-danger">Xóa</button>
+                        <button type="button" onclick="insertSeat()" class="btn btn-primary">Lưu</button>
                     </div>
                 </div>
             </div>
@@ -359,13 +376,11 @@
     <script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
 
 </body>
-
 <script src="http://localhost/CO3049_assignment/public/assets/pages/admin/cinema.js" defer></script>
 <script src="http://localhost/CO3049_assignment/public/mazor/assets/compiled/js/app.js" defer></script>
 <script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/components/dark.js" defer></script>
 <script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/jquery/jquery.min.js"></script>
 <script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
-<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/pages/datatables.js"></script>
 
 </html>

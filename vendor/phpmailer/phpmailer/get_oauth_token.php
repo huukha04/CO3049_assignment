@@ -70,7 +70,7 @@ if (!isset($_GET['code']) && !isset($_POST['provider'])) {
     <input type="submit" value="Continue">
 </form>
 <div id="toggleDark"></div>
-<script type="module" src="http://localhost/PHP_MVC/public/components/toggleDark.js"></script>
+<script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
 
 </body>
 </html>

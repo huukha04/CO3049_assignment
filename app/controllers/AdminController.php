@@ -11,17 +11,8 @@ class AdminController {
     public function media() {
         $this->view('admin/media');
     }
-    public function showtime() {
-        $this->view('admin/showtime');
-    }
     public function cinema() {
         $this->view('admin/cinema');
-    }
-    public function seat() {
-        $this->view('admin/seat');
-    }
-    public function product() {
-        $this->view('admin/product');
     }
     public function revenue() {
         $this->view('admin/revenue');
@@ -249,7 +240,7 @@ class AdminController {
         header('Content-Type: application/json');
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $seatModel = new SeatModel();
-            $result = $seatModel->insert($_POST);
+            $result = $seatModel->insertSeat($_POST);
             if($result != false) {
                 echo json_encode([
                     'status' => true, 
@@ -258,6 +249,25 @@ class AdminController {
                 exit;
             }
             echo json_encode(['status' => false, 'message' => $seatModel->message]);
+            exit;
+        }
+        echo json_encode(['status' => false, 'message' => 'Invalid request']);
+        exit;
+    }
+    public function deleteSeat() {
+        header('Content-Type: application/json');
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $seatModel = new SeatModel();
+            $result = $seatModel->deleteSeat($_POST);
+            if($result != false) {
+                echo json_encode([
+                    'status' => true, 
+                    'message' => $seatModel->message
+                ]);
+                exit;
+            }
+            echo json_encode(['status' => false, 'message' => $seatModel->message]);
+            exit;
         }
         echo json_encode(['status' => false, 'message' => 'Invalid request']);
         exit;
@@ -379,6 +389,25 @@ class AdminController {
         exit;
     }
     
+    public function getShowtimeForAdmin() {
+        header('Content-Type: application/json');
+        if($_SERVER['REQUEST_METHOD'] == 'GET') {
+            unset($_GET['url']);
+            $showtimeModel = new ShowtimeModel();
+            $result = $showtimeModel->getShowtimeForAdmin($_GET);
+            if($result != false) {
+                echo json_encode([
+                    'status' => true, 
+                    "data" => $result,
+                ]);
+                exit;
+            }
+            echo json_encode(['status' => false, 'message' => $showtimeModel->message]);
+            exit;
 
+        }
+        echo json_encode(['status' => false, 'message' => 'Invalid request']);
+        exit;
+    }
 
 }

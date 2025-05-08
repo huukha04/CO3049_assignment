@@ -113,10 +113,7 @@ async function getMovieByCinema(cinemaId, container) {
             return;
         }
 
-        let url = 'http://localhost/CO3049_assignment/public/main/getShowtime';
-        if (cinemaId) {
-            url += `?cinema_id=${cinemaId}`;
-        }
+        let url = `http://localhost/CO3049_assignment/public/main/getShowtimeByCinemaId?cinema_id=${cinemaId}`;
 
         const response = await fetch(url);
         const result = await response.json();
@@ -140,6 +137,7 @@ async function getMovieByCinema(cinemaId, container) {
                     }
                     groupedByDate[s.date].push(s);
                 }
+                console.log(showtimes);
 
                 const movieCard = document.createElement('div');
                 movieCard.innerHTML = `
@@ -158,7 +156,7 @@ async function getMovieByCinema(cinemaId, container) {
                             <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">
                                 <div class="p-4">
                                     <h5 class="card-title text-primary fw-bold mb-4 d-flex align-items-center">
-                                       Phim ID: ${media_id}
+                                       ${showtimes[0].title}
                                     </h5>
                                     ${Object.entries(groupedByDate).map(([date, slots]) => `
                                         <div class="mb-4 pb-3 border-bottom">
@@ -168,8 +166,7 @@ async function getMovieByCinema(cinemaId, container) {
                                             <div class="d-flex flex-wrap gap-2">
                                                 ${slots.map(slot => `
                                                     <a href="http://localhost/CO3049_assignment/public/main/booking?showtime_id=${slot.id}" 
-                                                    class="btn btn-outline-primary px-3 py-2 rounded-pill shadow-sm fw-medium"
-                                                    style="transition: all 0.2s ease-in-out;">
+                                                    class="btn btn-outline-primary">
                                                        ${slot.start_time.slice(11, 16)}
                                                     </a>
                                                 `).join('')}

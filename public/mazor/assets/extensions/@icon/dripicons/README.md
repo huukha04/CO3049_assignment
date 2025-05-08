@@ -39,7 +39,6 @@ There are many ways/formats of how to use dripicons. The fastest and recommended
 ...
 <link rel="stylesheet" href="@icon/dripicons/dripicons.css">
 ...
-    <link rel="stylesheet" href="http://localhost/PHP_MVC/public/mazor/assets/compiled/css/app-dark.css">
 </head>
 ```
 
@@ -50,7 +49,6 @@ There are many ways/formats of how to use dripicons. The fastest and recommended
 ...
 <link rel="stylesheet" href="https://unpkg.com/@icon/dripicons/dripicons.css">
 ...
-    <link rel="stylesheet" href="http://localhost/PHP_MVC/public/mazor/assets/compiled/css/app-dark.css">
 </head>
 ```
 
