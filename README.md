@@ -1,8 +1,6 @@
 Dưới đây là nội dung chuyển từ hướng dẫn cài đặt sang file `README.md` cho dự án **CO3049_assignment**:  
 
----
 
-```markdown
 # CO3049_assignment
 
 ## 1. Cài đặt XAMPP
@@ -29,19 +27,19 @@ Dưới đây là nội dung chuyển từ hướng dẫn cài đặt sang file 
 ### Bước 4: Khởi động ứng dụng
 
 - Mở trình duyệt và truy cập vào địa chỉ:  
-  ```
+  
+  ```bash
   http://localhost/CO3049_assignment/public/
   ```
 
 ### Bước 5: Quản lý cơ sở dữ liệu
 
 - Truy cập phpMyAdmin để quản lý cơ sở dữ liệu tại:  
-  ```
+  ```bash
   http://localhost/phpmyadmin/
   ```
 - Thêm các file `.sql` để tạo và thiết lập cơ sở dữ liệu cho dự án.  
 
----
 
 ## 2. Cấu hình dự án
 
@@ -56,20 +54,12 @@ Dưới đây là nội dung chuyển từ hướng dẫn cài đặt sang file 
   1. Đăng ký dịch vụ tại [PayOS](https://my.payos.vn).  
   2. Thiết lập các giá trị `CLIENT_ID`, `API_KEY`, `CHECKSUM_KEY` tương ứng với thông tin dịch vụ cung cấp trong file `Config.php`.  
 
----
 
 ## 3. Hỗ trợ
 
 - Nếu gặp vấn đề khi cài đặt hoặc sử dụng, vui lòng liên hệ qua email hoặc tạo issue trên GitHub.  
 
----
-
 ## 4. License
 
 - Dự án này được phát hành dưới [MIT License](https://opensource.org/licenses/MIT).  
 
-```
-
----
-
-Bạn muốn mình giúp chỉnh lại README để trông chuyên nghiệp hơn không? 😊
